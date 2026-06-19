@@ -254,6 +254,8 @@ main{max-width:1400px;margin:0 auto;padding:1.5rem 2rem 4rem;}
     <div class="acard"><h3>&#x1F4D6; Group storylines</h3><div id="f-groups"></div></div>
     <div class="acard"><h3>&#x26BD; Sweepstake notes</h3><div id="f-sweep"></div></div>
     <div class="acard"><h3>&#x1F3DF;&#xFE0F; Tournament records</h3><div id="f-records"></div></div>
+    <div class="acard" style="grid-column:1/-1"><h3>&#x1F525; Tournament so far — highlights</h3><div id="f-highlights"></div></div>
+    <div class="acard" style="grid-column:1/-1"><h3>&#x1F3C1; State of the race — every player\'s path to glory</h3><div id="f-writeup"></div></div>
     <div class="acard" style="grid-column:1/-1"><h3>&#x1F93F; Player dossiers</h3><div id="f-players"></div></div>
   </div>
 </div>
@@ -300,7 +302,7 @@ const TEAMS=[
 {name:'Norway',group:'I',tier:1,flag:'🇳🇴',rank:31,player:'Hugo'},
 {name:'Argentina',group:'J',tier:1,flag:'🇦🇷',rank:2,player:'Sam'},
 {name:'Algeria',group:'J',tier:3,flag:'🇩🇿',rank:49,player:'Jono'},
-{name:'Austria',group:'J',tier:2,flag:'🇦🇹',rank:22,player:'Richard'},
+{name:'Austria',group:'J',tier:3,flag:'🇦🇹',rank:22,player:'Richard'},
 {name:'Jordan',group:'J',tier:5,flag:'🇯🇴',rank:76,player:'Justin'},
 {name:'Portugal',group:'K',tier:1,flag:'🇵🇹',rank:6,player:'Tony'},
 {name:'DR Congo',group:'K',tier:5,flag:'🇨🇩',rank:66,player:'Rob'},
@@ -313,31 +315,31 @@ const TEAMS=[
 ];
 const TEAM_MAP={};TEAMS.forEach(t=>TEAM_MAP[t.name]=t);
 const GROUP_MATCHES=[
-{id:0,stage:"Group Stage",group:"A",date:"Thu 11 Jun",utc:"2026-06-11T19:00:00Z",home:"Mexico",away:"South Africa",homeScore:null,awayScore:null},
-{id:1,stage:"Group Stage",group:"A",date:"Thu 11 Jun",utc:"2026-06-12T02:00:00Z",home:"South Korea",away:"Czech Republic",homeScore:null,awayScore:null},
-{id:2,stage:"Group Stage",group:"B",date:"Fri 12 Jun",utc:"2026-06-12T16:00:00Z",home:"Canada",away:"Bosnia & Herzegovina",homeScore:null,awayScore:null},
-{id:3,stage:"Group Stage",group:"D",date:"Fri 12 Jun",utc:"2026-06-12T19:00:00Z",home:"USA",away:"Paraguay",homeScore:null,awayScore:null},
-{id:4,stage:"Group Stage",group:"B",date:"Sat 13 Jun",utc:"2026-06-13T16:00:00Z",home:"Qatar",away:"Switzerland",homeScore:null,awayScore:null},
-{id:5,stage:"Group Stage",group:"C",date:"Sat 13 Jun",utc:"2026-06-13T19:00:00Z",home:"Brazil",away:"Morocco",homeScore:null,awayScore:null},
-{id:6,stage:"Group Stage",group:"C",date:"Sat 13 Jun",utc:"2026-06-13T22:00:00Z",home:"Haiti",away:"Scotland",homeScore:null,awayScore:null},
-{id:7,stage:"Group Stage",group:"D",date:"Sat 13 Jun",utc:"2026-06-14T01:00:00Z",home:"Australia",away:"Turkey",homeScore:null,awayScore:null},
-{id:8,stage:"Group Stage",group:"E",date:"Sun 14 Jun",utc:"2026-06-14T16:00:00Z",home:"Germany",away:"Curazao",homeScore:null,awayScore:null},
-{id:9,stage:"Group Stage",group:"F",date:"Sun 14 Jun",utc:"2026-06-14T19:00:00Z",home:"Netherlands",away:"Japan",homeScore:null,awayScore:null},
-{id:10,stage:"Group Stage",group:"E",date:"Sun 14 Jun",utc:"2026-06-14T22:00:00Z",home:"Ivory Coast",away:"Ecuador",homeScore:null,awayScore:null},
-{id:11,stage:"Group Stage",group:"F",date:"Sun 14 Jun",utc:"2026-06-15T01:00:00Z",home:"Sweden",away:"Tunisia",homeScore:null,awayScore:null},
-{id:12,stage:"Group Stage",group:"H",date:"Mon 15 Jun",utc:"2026-06-15T16:00:00Z",home:"Spain",away:"Cape Verde",homeScore:null,awayScore:null},
-{id:13,stage:"Group Stage",group:"G",date:"Mon 15 Jun",utc:"2026-06-15T19:00:00Z",home:"Belgium",away:"Egypt",homeScore:null,awayScore:null},
-{id:14,stage:"Group Stage",group:"H",date:"Mon 15 Jun",utc:"2026-06-15T22:00:00Z",home:"Saudi Arabia",away:"Uruguay",homeScore:null,awayScore:null},
-{id:15,stage:"Group Stage",group:"G",date:"Mon 15 Jun",utc:"2026-06-16T01:00:00Z",home:"Iran",away:"New Zealand",homeScore:null,awayScore:null},
-{id:16,stage:"Group Stage",group:"I",date:"Tue 16 Jun",utc:"2026-06-16T16:00:00Z",home:"France",away:"Senegal",homeScore:null,awayScore:null},
-{id:17,stage:"Group Stage",group:"I",date:"Tue 16 Jun",utc:"2026-06-16T19:00:00Z",home:"Iraq",away:"Norway",homeScore:null,awayScore:null},
-{id:18,stage:"Group Stage",group:"J",date:"Tue 16 Jun",utc:"2026-06-16T22:00:00Z",home:"Argentina",away:"Algeria",homeScore:null,awayScore:null},
-{id:19,stage:"Group Stage",group:"J",date:"Tue 16 Jun",utc:"2026-06-17T01:00:00Z",home:"Austria",away:"Jordan",homeScore:null,awayScore:null},
-{id:20,stage:"Group Stage",group:"K",date:"Wed 17 Jun",utc:"2026-06-17T16:00:00Z",home:"Portugal",away:"DR Congo",homeScore:null,awayScore:null},
-{id:21,stage:"Group Stage",group:"L",date:"Wed 17 Jun",utc:"2026-06-17T19:00:00Z",home:"England",away:"Croatia",homeScore:null,awayScore:null},
-{id:22,stage:"Group Stage",group:"L",date:"Wed 17 Jun",utc:"2026-06-17T22:00:00Z",home:"Ghana",away:"Panama",homeScore:null,awayScore:null},
-{id:23,stage:"Group Stage",group:"K",date:"Wed 17 Jun",utc:"2026-06-18T01:00:00Z",home:"Uzbekistan",away:"Colombia",homeScore:null,awayScore:null},
-{id:24,stage:"Group Stage",group:"A",date:"Thu 18 Jun",utc:"2026-06-18T16:00:00Z",home:"Czech Republic",away:"South Africa",homeScore:null,awayScore:null},
+{id:0,stage:"Group Stage",group:"A",date:"Thu 11 Jun",utc:"2026-06-11T19:00:00Z",home:"Mexico",away:"South Africa",homeScore:2,awayScore:0},
+{id:1,stage:"Group Stage",group:"A",date:"Thu 11 Jun",utc:"2026-06-12T02:00:00Z",home:"South Korea",away:"Czech Republic",homeScore:2,awayScore:1},
+{id:2,stage:"Group Stage",group:"B",date:"Fri 12 Jun",utc:"2026-06-12T16:00:00Z",home:"Canada",away:"Bosnia & Herzegovina",homeScore:1,awayScore:1},
+{id:3,stage:"Group Stage",group:"D",date:"Fri 12 Jun",utc:"2026-06-12T19:00:00Z",home:"USA",away:"Paraguay",homeScore:4,awayScore:1},
+{id:4,stage:"Group Stage",group:"B",date:"Sat 13 Jun",utc:"2026-06-13T16:00:00Z",home:"Qatar",away:"Switzerland",homeScore:1,awayScore:1},
+{id:5,stage:"Group Stage",group:"C",date:"Sat 13 Jun",utc:"2026-06-13T19:00:00Z",home:"Brazil",away:"Morocco",homeScore:1,awayScore:1},
+{id:6,stage:"Group Stage",group:"C",date:"Sat 13 Jun",utc:"2026-06-13T22:00:00Z",home:"Haiti",away:"Scotland",homeScore:0,awayScore:1},
+{id:7,stage:"Group Stage",group:"D",date:"Sat 13 Jun",utc:"2026-06-14T01:00:00Z",home:"Australia",away:"Turkey",homeScore:2,awayScore:0},
+{id:8,stage:"Group Stage",group:"E",date:"Sun 14 Jun",utc:"2026-06-14T16:00:00Z",home:"Germany",away:"Curazao",homeScore:7,awayScore:1},
+{id:9,stage:"Group Stage",group:"F",date:"Sun 14 Jun",utc:"2026-06-14T19:00:00Z",home:"Netherlands",away:"Japan",homeScore:2,awayScore:2},
+{id:10,stage:"Group Stage",group:"E",date:"Sun 14 Jun",utc:"2026-06-14T22:00:00Z",home:"Ivory Coast",away:"Ecuador",homeScore:1,awayScore:0},
+{id:11,stage:"Group Stage",group:"F",date:"Sun 14 Jun",utc:"2026-06-15T01:00:00Z",home:"Sweden",away:"Tunisia",homeScore:5,awayScore:1},
+{id:12,stage:"Group Stage",group:"H",date:"Mon 15 Jun",utc:"2026-06-15T16:00:00Z",home:"Spain",away:"Cape Verde",homeScore:0,awayScore:0},
+{id:13,stage:"Group Stage",group:"G",date:"Mon 15 Jun",utc:"2026-06-15T19:00:00Z",home:"Belgium",away:"Egypt",homeScore:1,awayScore:1},
+{id:14,stage:"Group Stage",group:"H",date:"Mon 15 Jun",utc:"2026-06-15T22:00:00Z",home:"Saudi Arabia",away:"Uruguay",homeScore:1,awayScore:1},
+{id:15,stage:"Group Stage",group:"G",date:"Mon 15 Jun",utc:"2026-06-16T01:00:00Z",home:"Iran",away:"New Zealand",homeScore:2,awayScore:2},
+{id:16,stage:"Group Stage",group:"I",date:"Tue 16 Jun",utc:"2026-06-16T16:00:00Z",home:"France",away:"Senegal",homeScore:3,awayScore:1},
+{id:17,stage:"Group Stage",group:"I",date:"Tue 16 Jun",utc:"2026-06-16T19:00:00Z",home:"Iraq",away:"Norway",homeScore:1,awayScore:4},
+{id:18,stage:"Group Stage",group:"J",date:"Tue 16 Jun",utc:"2026-06-16T22:00:00Z",home:"Argentina",away:"Algeria",homeScore:3,awayScore:0},
+{id:19,stage:"Group Stage",group:"J",date:"Tue 16 Jun",utc:"2026-06-17T01:00:00Z",home:"Austria",away:"Jordan",homeScore:3,awayScore:1},
+{id:20,stage:"Group Stage",group:"K",date:"Wed 17 Jun",utc:"2026-06-17T16:00:00Z",home:"Portugal",away:"DR Congo",homeScore:1,awayScore:1},
+{id:21,stage:"Group Stage",group:"L",date:"Wed 17 Jun",utc:"2026-06-17T19:00:00Z",home:"England",away:"Croatia",homeScore:4,awayScore:2},
+{id:22,stage:"Group Stage",group:"L",date:"Wed 17 Jun",utc:"2026-06-17T22:00:00Z",home:"Ghana",away:"Panama",homeScore:1,awayScore:0},
+{id:23,stage:"Group Stage",group:"K",date:"Wed 17 Jun",utc:"2026-06-18T01:00:00Z",home:"Uzbekistan",away:"Colombia",homeScore:1,awayScore:3},
+{id:24,stage:"Group Stage",group:"A",date:"Thu 18 Jun",utc:"2026-06-18T16:00:00Z",home:"Czech Republic",away:"South Africa",homeScore:1,awayScore:1},
 {id:25,stage:"Group Stage",group:"A",date:"Thu 18 Jun",utc:"2026-06-18T19:00:00Z",home:"Mexico",away:"South Korea",homeScore:null,awayScore:null},
 {id:26,stage:"Group Stage",group:"B",date:"Thu 18 Jun",utc:"2026-06-18T22:00:00Z",home:"Switzerland",away:"Bosnia & Herzegovina",homeScore:null,awayScore:null},
 {id:27,stage:"Group Stage",group:"B",date:"Thu 18 Jun",utc:"2026-06-19T01:00:00Z",home:"Canada",away:"Qatar",homeScore:null,awayScore:null},
@@ -788,37 +790,40 @@ function renderFacts(){
     + '</div>';
   }).join('');
   f('f-stars',[
-    {c:'gold', t:'<strong>Lionel Messi</strong> (Argentina – Sam) — The GOAT at 38, leading defending champions Argentina. Won it in 2022 in one of the greatest finals ever. One last dance?'},
-    {c:'blue', t:'<strong>Kylian Mbappé</strong> (France – Richard) — Arguably the best player on the planet right now. France went deep in 2022 and Mbappé scored a hat-trick in the final. Richard\'s golden ticket.'},
-    {c:'',     t:'<strong>Vinicius Jr</strong> (Brazil – Andrew) — The world\'s most expensive player. Brazil haven\'t won since 2002 and Vini Jr is their best shot in a generation. Devastating on the counter.'},
-    {c:'blue', t:'<strong>Erling Haaland</strong> (Norway – Hugo) — 50+ goals a season at Man City. Norway\'s first World Cup since 1998. If he runs hot, Hugo is laughing all the way to the final.'},
-    {c:'',     t:'<strong>Cristiano Ronaldo</strong> (Portugal – Tony) — 41 years old and still playing at the highest level. Likely his last World Cup. Tony is riding the sentimentality train all the way.'},
-    {c:'gold', t:'<strong>Lamine Yamal</strong> (Spain – Phil) — 18 years old. World\'s #1 ranked team. Euro 2024 winner. Phil may have quietly drawn the best ticket in the whole sweepstake.'},
-    {c:'',     t:'<strong>Bukayo Saka</strong> (England – Justin) — Arsenal\'s talisman and England\'s most dangerous attacker. Justin has England AND USA — two of the tournament hosts. Solid draw.'},
-    {c:'blue', t:'<strong>Kevin De Bruyne</strong> (Belgium – Rob) — Possibly the last World Cup for Belgium\'s golden generation. De Bruyne is world class but Belgium have always underperformed. Rob will be nervous.'},
-    {c:'',     t:'<strong>Son Heung-min</strong> (South Korea – Sam) — Captain and talisman for South Korea. Sam has both Mexico AND South Korea — two teams that could easily make it through Group A.'},
-    {c:'gold', t:'<strong>Phil Foden</strong> (England – Justin) — In devastating form for Man City. Justin has both English-speaking hosts. If England go deep, Justin could run away with this thing.'},
+    {c:'gold', t:'<strong>Lionel Messi</strong> (Argentina – Sam) — Rolled back the years in a 3–0 win over Algeria to open the "Last Dance." Argentina look ominous and Sam is reaping the rewards.'},
+    {c:'blue', t:'<strong>Erling Haaland</strong> (Norway – Hugo) — Bagged a brace in Norway\'s 4–1 demolition of Iraq. Norway\'s first World Cup since 1998 has started with a bang. Hugo\'s best asset.'},
+    {c:'',     t:'<strong>Harry Kane</strong> (England – Justin) — Two goals in England\'s 4–2 win over Croatia. England\'s captain leads the early Golden Boot race. Justin is delighted.'},
+    {c:'blue', t:'<strong>Michael Olise</strong> (France – Richard) — Inspired France\'s second-half surge past Senegal 3–1. Richard\'s France look a class above. A genuine contender.'},
+    {c:'',     t:'<strong>Cristiano Ronaldo</strong> (Portugal – Tony) — Held to a 1–1 draw by DR Congo. ESPN already calling it "a Ronaldo problem again." Tony\'s Portugal need to find another gear.'},
+    {c:'gold', t:'<strong>Lamine Yamal</strong> (Spain – Phil) — Frustrated as world #1 Spain were held 0–0 by Cape Verde. The brightest young talent on earth, but Phil\'s favourites have stalled.'},
+    {c:'',     t:'<strong>Jude Bellingham</strong> (England – Justin) — On the scoresheet against Croatia. England\'s midfield engine is firing and Justin holds both of them.'},
+    {c:'blue', t:'<strong>Kevin De Bruyne</strong> (Belgium – Rob) — Belgium underwhelmed in a 1–1 draw with Egypt. The golden generation looks tired. Rob\'s Germany are carrying him so far.'},
+    {c:'',     t:'<strong>Vinicius Jr</strong> (Brazil – Andrew) — Brazil held 1–1 by Morocco in a tepid opener. The talent is there, the results aren\'t — yet. Andrew\'s Colombia have outscored his Brazil.'},
   ]);
   f('f-groups',[
-    {c:'gold', t:'<strong>Group A — The Opener.</strong> Mexico 2–0 South Africa in a chaotic first game featuring three red cards. Sam (Mexico, South Korea) is already on the board. Czech Republic up next.'},
-    {c:'blue', t:'<strong>Group H — Phil\'s kingdom.</strong> Spain (#1 in the world) and Uruguay (#16) in the same group. Phil could rack up points fast if Spain make it look easy in the group stage.'},
-    {c:'',     t:'<strong>Group I — Hugo\'s empire.</strong> Hugo drew France AND Senegal AND Norway AND Iraq. Five teams total. He barely needs anyone else to win to stay competitive.'},
-    {c:'red',  t:'<strong>Group J — Sam\'s big test.</strong> Argentina (defending champions, ranked #2) face Algeria and Austria. Not a gimme. Algeria gave France a scare at the Euros and Austria are dangerous.'},
-    {c:'blue', t:'<strong>Group L — The grudge match.</strong> England vs Croatia in the group stage is a sweepstake battle. Justin (England) vs Richard (Croatia). They\'ve met in two Euros semifinals already.'},
-    {c:'',     t:'<strong>Group K — Tony\'s dark horse.</strong> Portugal vs Colombia is the standout clash. Ronaldo vs the in-form Colombian side. Tony also holds Japan and Canada as backup.'},
-    {c:'gold', t:'<strong>Group E — Rob\'s double up.</strong> Germany AND Belgium in the same person\'s hands. Rob holds the only two top-10 ranked teams in the same sweepstake. Maximum upside, maximum pressure.'},
-    {c:'',     t:'<strong>Group D — Justin\'s home advantage.</strong> USA are co-hosts playing in front of their own fans. Justin holds both USA and England — if either goes on a run, he could dominate the knockout rounds.'},
+    {c:'gold', t:'<strong>Group A — Sam flying.</strong> Mexico 2–0 South Africa in a chaotic opener (three red cards), then South Korea beat Czechia 2–1. Sam has 6pts from his two Group A teams alone. Czechia 1–1 South Africa since.'},
+    {c:'blue', t:'<strong>Group B — all square.</strong> Canada 1–1 Bosnia and Qatar stunned Switzerland with a 95th-minute equaliser for a 1–1 draw. All four teams on a single point — the tightest group in the tournament.'},
+    {c:'',     t:'<strong>Group C — Scotland end the drought.</strong> Scotland 1–0 Haiti — their first World Cup win since 1990. Brazil were held 1–1 by Morocco, Vinícius Jr rescuing a point. Andrew\'s Brazil stutter; Justin\'s Scotland deliver.'},
+    {c:'red',  t:'<strong>Group D — USA & Australia fly.</strong> USA 4–1 Paraguay (Balogun double) and Australia stunned Türkiye 2–0. Justin\'s USA and Hugo\'s Australia both bank 3pts; Andrew\'s Türkiye and Phil\'s Paraguay left pointless.'},
+    {c:'red',  t:'<strong>Group E — Germany run riot.</strong> Germany 7–1 Curaçao — the biggest win of the tournament so far. Rob banks 3pts, while Phil\'s Curaçao concede seven. Ivory Coast edged Ecuador 1–0.'},
+    {c:'',     t:'<strong>Group F — Sweden thrash Tunisia.</strong> Sweden 5–1 Tunisia (Tunisia sacked their manager the next day), Netherlands 2–2 Japan. Sam\'s Sweden bank 3 more; Jono\'s Netherlands and Tunisia muster a single point between them.'},
+    {c:'blue', t:'<strong>Group G — honours even.</strong> Belgium 1–1 Egypt and Iran 2–2 New Zealand. Rob\'s Belgium underwhelm; the unpicked Iran, Egypt and NZ all grab draws. Wide open.'},
+    {c:'red',  t:'<strong>Group H — Spain stumble.</strong> Spain 0–0 Cape Verde — the world #1 held by the minnows. Saudi Arabia 1–1 Uruguay. Phil\'s "best draw" is off to a quiet start, just 2pts from three teams.'},
+    {c:'blue', t:'<strong>Group I — Norway stun Iraq.</strong> Norway 4–1 Iraq with Haaland scoring twice. France beat Senegal 3–1 (Olise inspired). Hugo has Norway AND Iraq AND Senegal here — a mixed bag of 3pts and zeroes.'},
+    {c:'',     t:'<strong>Group J — Messi rolls back the years.</strong> Argentina 3–0 Algeria, Messi turning on the style in the "Last Dance." Austria 3–1 Jordan. Sam and Richard both bank 3pts.'},
+    {c:'blue', t:'<strong>Group K — Colombia impress.</strong> Colombia 3–1 Uzbekistan; Portugal held 1–1 by DR Congo (a Ronaldo problem again). Andrew\'s Colombia look strong, Tony\'s Portugal stutter.'},
+    {c:'gold', t:'<strong>Group L — England deliver.</strong> England 4–2 Croatia in a thriller — Kane (2), Bellingham, Rashford. Justin banks 3pts; Richard\'s Croatia get nothing. Ghana 1–0 Panama too.'},
   ]);
   f('f-sweep',[
-    {c:'gold', t:'<strong>Best draw:</strong> Phil — Spain (#1 world) + Uruguay (#16) + Paraguay + Cape Verde + Ghana. Pre-tournament favourite on paper. He\'s allergic to foam but not to quality teams.'},
-    {c:'blue', t:'<strong>Most teams:</strong> Hugo — 5 teams including France, Senegal, Norway, Iraq & Australia. Sheer volume. Even if two flop, he has France as the baseline.'},
-    {c:'',     t:'<strong>Highest ranked pair:</strong> Rob — Germany (#9) AND Belgium (#8). The only person with two top-10 teams. If either goes deep into the knockouts, Rob is dangerous.'},
-    {c:'red',  t:'<strong>Biggest wildcard:</strong> Justin — USA AND England, both co-hosts. Home advantage is real at a World Cup. Could go either way, but the crowd factor shouldn\'t be underestimated.'},
-    {c:'gold', t:'<strong>Sneaky value:</strong> Andrew — Brazil (#5) is a genuine title contender. Colombia (#13) is dangerous too. Brazil haven\'t won since 2002. This could be their year.'},
-    {c:'blue', t:'<strong>The veteran bet:</strong> Tony — Portugal with Ronaldo is always compelling. Japan are consistent overperformers. Canada are co-hosts. Solid across all tiers.'},
-    {c:'',     t:'<strong>Unpicked teams:</strong> Egypt, Iran, New Zealand. Iran are ranked #20 — the biggest miss of the draft. Whoever draws them in a sweepstake side bet is laughing.'},
-    {c:'red',  t:'<strong>Maximum possible score:</strong> If a player\'s teams won every single game — 312 points. Realistically, 80–120 points will win this. Early leaders mean nothing until the knockouts start.'},
-    {c:'gold', t:'<strong>First blood:</strong> Mexico 2–0 South Africa, June 11. Three red cards. Sam opens his account. Jono (South Africa) takes an early hit.'},
+    {c:'gold', t:'<strong>Sam runs away early.</strong> 13pts and clear at the top — Mexico, South Korea, Argentina and Sweden all winning, Qatar drawing. A near-perfect start across all five teams.'},
+    {c:'blue', t:'<strong>Justin surges to 2nd.</strong> 10pts. USA hammered Paraguay 4–1, England beat Croatia 4–2, Scotland edged Haiti. Three of his teams firing — his two host nations look dangerous.'},
+    {c:'',     t:'<strong>Hugo 3rd on volume.</strong> 9pts. Australia stunned Türkiye 2–0 and Norway thumped Iraq 4–1. Five teams keep the points trickling in even when Senegal and Iraq misfire.'},
+    {c:'red',  t:'<strong>Phil\'s "best draw" misfires.</strong> Just 5pts. Spain drew with Cape Verde, Curaçao shipped seven to Germany. Only Ghana delivered. The foam-allergic favourite is sweating.'},
+    {c:'',     t:'<strong>Jono props up the table.</strong> Rock bottom on 3pts — South Africa, Morocco and Netherlands all drew, while Tunisia and Algeria were beaten. Five teams, not a single win between them. Some things never change.'},
+    {c:'gold', t:'<strong>Biggest single result:</strong> Germany 7–1 Curaçao. Rob smiles, Phil winces — his Curaçao have the worst goal difference in the tournament.'},
+    {c:'blue', t:'<strong>Best value pick so far:</strong> Sam\'s Sweden — a tier-3 team that thumped Tunisia 5–1. Quietly one of the best returns per draft position.'},
+    {c:'red',  t:'<strong>Still to fire:</strong> Tony\'s Portugal (1–1 with DR Congo) and Andrew\'s Brazil (1–1 with Morocco) — two heavyweights stuck on a single point. Plenty of upside remaining.'},
+    {c:'',     t:'<strong>Unpicked teams watch:</strong> Iran (2–2 NZ) and Egypt (1–1 Belgium) both drew; New Zealand grabbed a creditable point. None would have troubled the leaderboard yet.'},
   ]);
   f('f-records',[
     {c:'gold', t:'<strong>Biggest ever World Cup.</strong> 48 teams, 104 games, 16 venues across 3 countries. The US alone hosts 11 cities. Canada and Mexico host 2 and 3 respectively.'},
@@ -831,6 +836,59 @@ function renderFacts(){
     {c:'red',  t:'<strong>Fastest goal in World Cup history.</strong> Hakan Sükür for Turkey vs South Korea in 2002 — 11 seconds. Three of those teams are in this sweepstake (Turkey–Andrew, South Korea–Sam).'},
     {c:'blue', t:'<strong>Most appearances.</strong> Mexico are making their 18th World Cup appearance. Germany their 21st. Both are in this sweepstake — Sam (Mexico) and Rob (Germany).'},
   ]);
+
+  f('f-highlights',[
+    {c:'gold', t:'<strong>Germany 7–1 Curaçao</strong> — the biggest scoreline of the tournament so far. Curaçao, the smallest nation by population ever to reach a World Cup, were simply overwhelmed.'},
+    {c:'blue', t:'<strong>Record-breaking attendances.</strong> June 16 drew 281,223 fans across its fixtures — the highest-attended day in World Cup history. The tournament is on pace to smash the 1994 cumulative record of 3.5 million.'},
+    {c:'',     t:'<strong>Messi\'s "Last Dance" begins.</strong> The 38-year-old turned on the style in Argentina\'s 3–0 win over Algeria, proving the magic hasn\'t faded as the defending champions opened with a statement.'},
+    {c:'red',  t:'<strong>Spain held by Cape Verde.</strong> The world\'s #1 ranked side could only manage 0–0 against tournament debutants Cape Verde — the early shock of the group stage.'},
+    {c:'gold', t:'<strong>England 4–2 Croatia.</strong> The pick of the opening fixtures — Harry Kane bagged two, with Bellingham and Rashford also on the score sheet in a six-goal thriller in Dallas.'},
+    {c:'blue', t:'<strong>Haaland announces himself.</strong> Two goals as Norway beat Iraq 4–1 on their long-awaited return to the World Cup stage after a 28-year absence.'},
+    {c:'',     t:'<strong>Chaotic opener.</strong> Host nation Mexico beat South Africa 2–0 at a heaving Estadio Azteca in a game that featured three red cards — a fiery start to the whole tournament.'},
+    {c:'red',  t:'<strong>Ronaldo problem again.</strong> Portugal stumbled to a 1–1 draw with DR Congo, with pundits questioning whether the 41-year-old still fits the system. A familiar refrain.'},
+  ]);
+
+  renderWriteup();
+}
+
+// PLAYER WRITE-UP — state of the race
+function renderWriteup(){
+  computePoints();
+  const data = PLAYERS.map(p => {
+    const ts = playerTeams(p.name);
+    return {name:p.name, color:p.color, pts:playerPts(p.name), max:maxPossible(p.name), teams:ts};
+  }).sort((a,b) => b.pts - a.pts || b.max - a.max);
+
+  // Per-player narrative (subtle Jono ribbing woven in, all factually grounded)
+  const NOTES = {
+    Sam: "The runaway leader. Mexico, South Korea, Argentina and Sweden all won their openers, with Qatar nicking a draw too. Argentina look like genuine title contenders and South Korea sit top of Group A. Path to win: keep Argentina rolling deep into the knockouts and he's very hard to catch. Frankly his only enemy now is complacency.",
+    Justin: "A flying start. USA hammered Paraguay 4–1, England beat Croatia 4–2 and Scotland edged Haiti. Three wins from his marquee teams has him second. Path to win: England and USA both look the part — if either goes on a deep run, Justin's two host nations give him a steady stream of fixtures.",
+    Hugo: "Quietly excellent on volume. Australia stunned Türkiye 2–0 and Norway's Haaland-inspired side thumped Iraq 4–1. Five teams means points keep trickling in even when Senegal and Iraq disappoint. Path to win: Norway to keep overachieving and France— sorry, that's Richard's. He'll need his own teams to step up.",
+    Richard: "France dismantled Senegal 3–1 and Austria saw off Jordan. Croatia's collapse against England and Panama's defeat sting, but France are a class apart. Path to win: France to the final and Austria to spring a surprise or two.",
+    Andrew: "Mixed bag. Colombia impressed in a 3–1 win over Uzbekistan, but Brazil were held by Morocco and Türkiye were beaten by Australia. Path to win: Brazil to finally click into gear — historically they do — with Colombia as a strong second string.",
+    Rob: "Germany's 7–1 demolition of Curaçao was the perfect start, but Belgium's tired 1–1 with Egypt is a worry and Ecuador lost. Germany alone could win him this if they go deep. Path to win: lean on the Germans and hope Belgium's golden generation has one last run.",
+    Phil: "The pre-tournament favourite is sweating. Spain were held by Cape Verde, Curaçao shipped seven, and only Ghana delivered. Just 5pts from five teams is a poor return on paper's best draw. Path to win: Spain simply have to start winning — the talent says they will.",
+    Tony: "A muted start. Portugal drew with DR Congo, Uzbekistan and Haiti lost. Japan and Canada at least nicked draws. Path to win: Ronaldo's Portugal need to rediscover their bite, and Japan are always good for an upset.",
+    Jono: "Bottom of the pile, and it's hard to argue he didn't earn it. Five teams — South Africa, Morocco, Netherlands, Tunisia and Algeria — and not a single win between the lot of them. Three draws and two defeats. To his credit, the showers at Plumbers Point have seen worse from him, but the leaderboard hasn't. Path to win: technically still alive, in the way that all things are technically possible. The Netherlands are his one real hope; everything else needs a miracle. Best he keeps his day job."
+  };
+
+  let html = '<div style="font-size:0.82rem;line-height:1.6;color:#374151">';
+  html += '<p style="margin-bottom:1rem;color:var(--muted);font-size:0.78rem">After the first round of group games — here\'s where everyone stands and what they need. '+data[0].name+' leads on '+data[0].pts+'pts.</p>';
+  data.forEach((d, i) => {
+    const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.';
+    const isLast = i === data.length - 1;
+    html += '<div style="margin-bottom:0.9rem;padding:0.75rem 0.9rem;background:'+(isLast?'#fef2f2':'#f9fafb')+';border-radius:9px;border-left:4px solid '+d.color+'">'
+      + '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem;flex-wrap:wrap">'
+        + '<span style="font-size:1rem">'+medal+'</span>'
+        + '<span style="font-family:Oswald,sans-serif;font-weight:700;font-size:1rem;color:'+d.color+'">'+d.name+'</span>'
+        + '<span style="font-weight:700;font-size:0.85rem">'+d.pts+'pts</span>'
+        + '<span style="font-size:0.7rem;color:var(--muted)">(max possible '+d.max+')</span>'
+      + '</div>'
+      + '<div style="font-size:0.8rem;line-height:1.55">'+(NOTES[d.name]||'')+'</div>'
+      + '</div>';
+  });
+  html += '</div>';
+  document.getElementById('f-writeup').innerHTML = html;
 }
 
 // PLAYOFF PICTURE
@@ -900,20 +958,31 @@ function renderPlayoff() {
   const top8thirds = allThirds.slice(0, 8);
   const advancing3rds = new Set(top8thirds.map(t => t.name));
 
-  // Pre-assign each advancing 3rd-place team to exactly one R32 slot
-  // Each slot specifies eligible groups; assign the best available 3rd to each slot in order
-  const assigned3rds = {}; // slotKey -> team
-  const used3rds = new Set();
-  R32_OFFICIAL.filter(m => m.home.startsWith('3') || m.away.startsWith('3')).forEach(match => {
+  // Pre-assign each of the 8 best 3rd-place teams to exactly one R32 slot.
+  // FIFA's matrix assigns by group, but we guarantee every slot is filled:
+  // 1st pass: greedy best-eligible-unassigned per slot
+  // 2nd pass: backfill any still-empty slot with the best remaining unassigned 3rd
+  const thirdSlots = [];
+  R32_OFFICIAL.forEach(match => {
     ['home','away'].forEach(side => {
-      const slot = match[side];
-      if (!slot.startsWith('3')) return;
-      const eligibleGroups = slot.slice(1).split('');
-      // Find best unassigned advancing 3rd from eligible groups
-      const pick = top8thirds.find(t => eligibleGroups.includes(t.group) && !used3rds.has(t.name));
-      if (pick) { assigned3rds[slot+'_'+match.num] = pick; used3rds.add(pick.name); }
-      else { assigned3rds[slot+'_'+match.num] = {name:'TBD',flag:'',player:null,rank:99}; }
+      if (match[side].startsWith('3')) thirdSlots.push({slot:match[side], num:match.num, key:match[side]+'_'+match.num});
     });
+  });
+  const assigned3rds = {};
+  const used3rds = new Set();
+  // Pass 1: greedy by eligible group
+  thirdSlots.forEach(ts => {
+    const eligibleGroups = ts.slot.slice(1).split('');
+    const pick = top8thirds.find(t => eligibleGroups.includes(t.group) && !used3rds.has(t.name));
+    if (pick) { assigned3rds[ts.key] = pick; used3rds.add(pick.name); }
+  });
+  // Pass 2: backfill empty slots with any remaining top-8 third, then any third at all
+  thirdSlots.forEach(ts => {
+    if (assigned3rds[ts.key]) return;
+    let pick = top8thirds.find(t => !used3rds.has(t.name))
+            || allThirds.find(t => !used3rds.has(t.name));
+    if (pick) { assigned3rds[ts.key] = pick; used3rds.add(pick.name); }
+    else { assigned3rds[ts.key] = {name:'TBD',flag:'',player:null,rank:99}; }
   });
 
   function resolveSlot(slot, matchNum) {
