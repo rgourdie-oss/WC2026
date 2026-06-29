@@ -153,6 +153,18 @@ main{max-width:1400px;margin:0 auto;padding:1.5rem 2rem 4rem;}
 .third-card{display:flex;align-items:center;gap:0.5rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:7px;padding:0.45rem 0.7rem;font-size:0.75rem;}
 .third-card.advancing{background:#fefce8;border-color:#fde68a;}
 .third-card.advancing .tc-pos{color:#d97706;font-weight:700;}
+/* Live knockout bracket */
+.ko-round{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:0.6rem;margin-bottom:1.75rem;}
+.ko-match{background:#fff;border:1px solid #e5e7eb;border-radius:9px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,0.04);}
+.ko-mhead{background:#f3f4f6;font-size:0.64rem;font-weight:700;color:#6b7280;padding:3px 9px;text-transform:uppercase;letter-spacing:0.05em;}
+.ko-team{display:flex;align-items:center;gap:0.45rem;padding:0.5rem 0.7rem;font-size:0.8rem;font-weight:600;border-bottom:1px solid #f3f4f6;}
+.ko-team:last-child{border-bottom:none;}
+.ko-team.winner{background:#f0fdf4;}
+.ko-team.winner .ko-name{color:#15803d;}
+.ko-name{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ko-score{font-family:'Oswald',sans-serif;font-weight:700;font-size:1rem;min-width:18px;text-align:right;color:var(--text);}
+.ko-team.winner .ko-score{color:#15803d;}
+.ko-seed{font-size:0.6rem;color:#9ca3af;min-width:14px;}
 @media(max-width:768px){main{padding:1rem;}.hinner{padding:1.25rem 1rem 1rem;}.tabs-inner{padding:0 0.75rem;}.mrow{grid-template-columns:1fr auto 1fr;font-size:0.75rem;}.gtag{display:none;}.ko-table{font-size:0.65rem;}}
 </style>
 </head>
@@ -199,6 +211,7 @@ main{max-width:1400px;margin:0 auto;padding:1.5rem 2rem 4rem;}
   <div class="notice">&#x1F4F6; <strong>Scores update automatically from Wikipedia</strong> every 5 minutes &mdash; no setup needed. Hit refresh for immediate updates.</div>
   <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap">
     <button class="save-btn" style="margin-top:0;padding:0.5rem 1.25rem;font-size:0.8rem" onclick="fetchWikiScores(true)">&#x1F504; Refresh from Wikipedia</button>
+    <button class="save-btn" style="margin-top:0;padding:0.5rem 1.25rem;font-size:0.8rem;background:#6b7280" onclick="resetToOfficial()">&#x267B;&#xFE0F; Reset to official scores</button>
     <div id="fetch-status" style="font-size:0.75rem;color:var(--muted)"></div>
   </div>
   <div class="sf">
@@ -340,61 +353,121 @@ const GROUP_MATCHES=[
 {id:22,stage:"Group Stage",group:"L",date:"Wed 17 Jun",utc:"2026-06-17T22:00:00Z",home:"Ghana",away:"Panama",homeScore:1,awayScore:0},
 {id:23,stage:"Group Stage",group:"K",date:"Wed 17 Jun",utc:"2026-06-18T01:00:00Z",home:"Uzbekistan",away:"Colombia",homeScore:1,awayScore:3},
 {id:24,stage:"Group Stage",group:"A",date:"Thu 18 Jun",utc:"2026-06-18T16:00:00Z",home:"Czech Republic",away:"South Africa",homeScore:1,awayScore:1},
-{id:25,stage:"Group Stage",group:"A",date:"Thu 18 Jun",utc:"2026-06-18T19:00:00Z",home:"Mexico",away:"South Korea",homeScore:null,awayScore:null},
-{id:26,stage:"Group Stage",group:"B",date:"Thu 18 Jun",utc:"2026-06-18T22:00:00Z",home:"Switzerland",away:"Bosnia & Herzegovina",homeScore:null,awayScore:null},
-{id:27,stage:"Group Stage",group:"B",date:"Thu 18 Jun",utc:"2026-06-19T01:00:00Z",home:"Canada",away:"Qatar",homeScore:null,awayScore:null},
-{id:28,stage:"Group Stage",group:"D",date:"Fri 19 Jun",utc:"2026-06-19T16:00:00Z",home:"USA",away:"Australia",homeScore:null,awayScore:null},
-{id:29,stage:"Group Stage",group:"D",date:"Fri 19 Jun",utc:"2026-06-19T19:00:00Z",home:"Turkey",away:"Paraguay",homeScore:null,awayScore:null},
-{id:30,stage:"Group Stage",group:"C",date:"Fri 19 Jun",utc:"2026-06-19T22:00:00Z",home:"Scotland",away:"Morocco",homeScore:null,awayScore:null},
-{id:31,stage:"Group Stage",group:"C",date:"Fri 19 Jun",utc:"2026-06-20T01:00:00Z",home:"Brazil",away:"Haiti",homeScore:null,awayScore:null},
-{id:32,stage:"Group Stage",group:"E",date:"Sat 20 Jun",utc:"2026-06-20T16:00:00Z",home:"Germany",away:"Ivory Coast",homeScore:null,awayScore:null},
-{id:33,stage:"Group Stage",group:"E",date:"Sat 20 Jun",utc:"2026-06-20T19:00:00Z",home:"Ecuador",away:"Curazao",homeScore:null,awayScore:null},
-{id:34,stage:"Group Stage",group:"F",date:"Sat 20 Jun",utc:"2026-06-20T22:00:00Z",home:"Japan",away:"Sweden",homeScore:null,awayScore:null},
-{id:35,stage:"Group Stage",group:"F",date:"Sat 20 Jun",utc:"2026-06-21T01:00:00Z",home:"Tunisia",away:"Netherlands",homeScore:null,awayScore:null},
-{id:36,stage:"Group Stage",group:"H",date:"Sun 21 Jun",utc:"2026-06-21T16:00:00Z",home:"Spain",away:"Saudi Arabia",homeScore:null,awayScore:null},
-{id:37,stage:"Group Stage",group:"H",date:"Sun 21 Jun",utc:"2026-06-21T19:00:00Z",home:"Uruguay",away:"Cape Verde",homeScore:null,awayScore:null},
-{id:38,stage:"Group Stage",group:"G",date:"Sun 21 Jun",utc:"2026-06-21T22:00:00Z",home:"Belgium",away:"Iran",homeScore:null,awayScore:null},
-{id:39,stage:"Group Stage",group:"G",date:"Sun 21 Jun",utc:"2026-06-22T01:00:00Z",home:"New Zealand",away:"Egypt",homeScore:null,awayScore:null},
-{id:40,stage:"Group Stage",group:"I",date:"Mon 22 Jun",utc:"2026-06-22T16:00:00Z",home:"France",away:"Iraq",homeScore:null,awayScore:null},
-{id:41,stage:"Group Stage",group:"I",date:"Mon 22 Jun",utc:"2026-06-22T19:00:00Z",home:"Norway",away:"Senegal",homeScore:null,awayScore:null},
-{id:42,stage:"Group Stage",group:"J",date:"Mon 22 Jun",utc:"2026-06-22T22:00:00Z",home:"Argentina",away:"Austria",homeScore:null,awayScore:null},
-{id:43,stage:"Group Stage",group:"J",date:"Mon 22 Jun",utc:"2026-06-23T01:00:00Z",home:"Jordan",away:"Algeria",homeScore:null,awayScore:null},
-{id:44,stage:"Group Stage",group:"K",date:"Tue 23 Jun",utc:"2026-06-23T16:00:00Z",home:"Portugal",away:"Uzbekistan",homeScore:null,awayScore:null},
-{id:45,stage:"Group Stage",group:"K",date:"Tue 23 Jun",utc:"2026-06-23T19:00:00Z",home:"Colombia",away:"DR Congo",homeScore:null,awayScore:null},
-{id:46,stage:"Group Stage",group:"L",date:"Tue 23 Jun",utc:"2026-06-23T22:00:00Z",home:"England",away:"Ghana",homeScore:null,awayScore:null},
-{id:47,stage:"Group Stage",group:"L",date:"Tue 23 Jun",utc:"2026-06-24T01:00:00Z",home:"Croatia",away:"Panama",homeScore:null,awayScore:null},
-{id:48,stage:"Group Stage",group:"A",date:"Wed 24 Jun",utc:"2026-06-24T16:00:00Z",home:"South Korea",away:"South Africa",homeScore:null,awayScore:null},
-{id:49,stage:"Group Stage",group:"A",date:"Wed 24 Jun",utc:"2026-06-24T19:00:00Z",home:"Czech Republic",away:"Mexico",homeScore:null,awayScore:null},
-{id:50,stage:"Group Stage",group:"B",date:"Wed 24 Jun",utc:"2026-06-24T22:00:00Z",home:"Switzerland",away:"Canada",homeScore:null,awayScore:null},
-{id:51,stage:"Group Stage",group:"B",date:"Wed 24 Jun",utc:"2026-06-25T01:00:00Z",home:"Bosnia & Herzegovina",away:"Qatar",homeScore:null,awayScore:null},
-{id:52,stage:"Group Stage",group:"C",date:"Thu 25 Jun",utc:"2026-06-25T16:00:00Z",home:"Morocco",away:"Haiti",homeScore:null,awayScore:null},
-{id:53,stage:"Group Stage",group:"C",date:"Thu 25 Jun",utc:"2026-06-25T19:00:00Z",home:"Scotland",away:"Brazil",homeScore:null,awayScore:null},
-{id:54,stage:"Group Stage",group:"D",date:"Thu 25 Jun",utc:"2026-06-25T22:00:00Z",home:"Australia",away:"Paraguay",homeScore:null,awayScore:null},
-{id:55,stage:"Group Stage",group:"D",date:"Thu 25 Jun",utc:"2026-06-26T01:00:00Z",home:"Turkey",away:"USA",homeScore:null,awayScore:null},
-{id:56,stage:"Group Stage",group:"E",date:"Fri 26 Jun",utc:"2026-06-26T16:00:00Z",home:"Germany",away:"Ecuador",homeScore:null,awayScore:null},
-{id:57,stage:"Group Stage",group:"E",date:"Fri 26 Jun",utc:"2026-06-26T19:00:00Z",home:"Curazao",away:"Ivory Coast",homeScore:null,awayScore:null},
-{id:58,stage:"Group Stage",group:"F",date:"Fri 26 Jun",utc:"2026-06-26T22:00:00Z",home:"Netherlands",away:"Sweden",homeScore:null,awayScore:null},
-{id:59,stage:"Group Stage",group:"F",date:"Fri 26 Jun",utc:"2026-06-27T01:00:00Z",home:"Japan",away:"Tunisia",homeScore:null,awayScore:null},
-{id:60,stage:"Group Stage",group:"H",date:"Sat 27 Jun",utc:"2026-06-27T13:00:00Z",home:"Spain",away:"Uruguay",homeScore:null,awayScore:null},
-{id:61,stage:"Group Stage",group:"H",date:"Sat 27 Jun",utc:"2026-06-27T16:00:00Z",home:"Saudi Arabia",away:"Cape Verde",homeScore:null,awayScore:null},
-{id:62,stage:"Group Stage",group:"G",date:"Sat 27 Jun",utc:"2026-06-27T19:00:00Z",home:"Belgium",away:"New Zealand",homeScore:null,awayScore:null},
-{id:63,stage:"Group Stage",group:"G",date:"Sat 27 Jun",utc:"2026-06-27T22:00:00Z",home:"Egypt",away:"Iran",homeScore:null,awayScore:null},
-{id:64,stage:"Group Stage",group:"I",date:"Sat 27 Jun",utc:"2026-06-28T01:00:00Z",home:"France",away:"Norway",homeScore:null,awayScore:null},
-{id:65,stage:"Group Stage",group:"I",date:"Sat 27 Jun",utc:"2026-06-28T04:00:00Z",home:"Iraq",away:"Senegal",homeScore:null,awayScore:null},
-{id:66,stage:"Group Stage",group:"J",date:"Sat 27 Jun",utc:"2026-06-27T13:00:00Z",home:"Argentina",away:"Jordan",homeScore:null,awayScore:null},
-{id:67,stage:"Group Stage",group:"J",date:"Sat 27 Jun",utc:"2026-06-27T16:00:00Z",home:"Algeria",away:"Austria",homeScore:null,awayScore:null},
-{id:68,stage:"Group Stage",group:"K",date:"Sat 27 Jun",utc:"2026-06-27T19:00:00Z",home:"Portugal",away:"Colombia",homeScore:null,awayScore:null},
-{id:69,stage:"Group Stage",group:"K",date:"Sat 27 Jun",utc:"2026-06-27T22:00:00Z",home:"DR Congo",away:"Uzbekistan",homeScore:null,awayScore:null},
-{id:70,stage:"Group Stage",group:"L",date:"Sat 27 Jun",utc:"2026-06-28T01:00:00Z",home:"Panama",away:"England",homeScore:null,awayScore:null},
-{id:71,stage:"Group Stage",group:"L",date:"Sat 27 Jun",utc:"2026-06-28T04:00:00Z",home:"Ghana",away:"Croatia",homeScore:null,awayScore:null},
+{id:25,stage:"Group Stage",group:"A",date:"Thu 18 Jun",utc:"2026-06-18T19:00:00Z",home:"Mexico",away:"South Korea",homeScore:1,awayScore:0},
+{id:26,stage:"Group Stage",group:"B",date:"Thu 18 Jun",utc:"2026-06-18T22:00:00Z",home:"Switzerland",away:"Bosnia & Herzegovina",homeScore:4,awayScore:1},
+{id:27,stage:"Group Stage",group:"B",date:"Thu 18 Jun",utc:"2026-06-19T01:00:00Z",home:"Canada",away:"Qatar",homeScore:6,awayScore:0},
+{id:28,stage:"Group Stage",group:"D",date:"Fri 19 Jun",utc:"2026-06-19T16:00:00Z",home:"USA",away:"Australia",homeScore:2,awayScore:0},
+{id:29,stage:"Group Stage",group:"D",date:"Fri 19 Jun",utc:"2026-06-19T19:00:00Z",home:"Turkey",away:"Paraguay",homeScore:0,awayScore:1},
+{id:30,stage:"Group Stage",group:"C",date:"Fri 19 Jun",utc:"2026-06-19T22:00:00Z",home:"Scotland",away:"Morocco",homeScore:0,awayScore:1},
+{id:31,stage:"Group Stage",group:"C",date:"Fri 19 Jun",utc:"2026-06-20T01:00:00Z",home:"Brazil",away:"Haiti",homeScore:3,awayScore:0},
+{id:32,stage:"Group Stage",group:"E",date:"Sat 20 Jun",utc:"2026-06-20T16:00:00Z",home:"Germany",away:"Ivory Coast",homeScore:2,awayScore:1},
+{id:33,stage:"Group Stage",group:"E",date:"Sat 20 Jun",utc:"2026-06-20T19:00:00Z",home:"Ecuador",away:"Curazao",homeScore:0,awayScore:0},
+{id:34,stage:"Group Stage",group:"F",date:"Sat 20 Jun",utc:"2026-06-20T22:00:00Z",home:"Japan",away:"Sweden",homeScore:0,awayScore:0},
+{id:35,stage:"Group Stage",group:"F",date:"Sat 20 Jun",utc:"2026-06-21T01:00:00Z",home:"Tunisia",away:"Netherlands",homeScore:0,awayScore:0},
+{id:36,stage:"Group Stage",group:"H",date:"Sun 21 Jun",utc:"2026-06-21T16:00:00Z",home:"Spain",away:"Saudi Arabia",homeScore:4,awayScore:0},
+{id:37,stage:"Group Stage",group:"H",date:"Sun 21 Jun",utc:"2026-06-21T19:00:00Z",home:"Uruguay",away:"Cape Verde",homeScore:2,awayScore:2},
+{id:38,stage:"Group Stage",group:"G",date:"Sun 21 Jun",utc:"2026-06-21T22:00:00Z",home:"Belgium",away:"Iran",homeScore:0,awayScore:0},
+{id:39,stage:"Group Stage",group:"G",date:"Sun 21 Jun",utc:"2026-06-22T01:00:00Z",home:"New Zealand",away:"Egypt",homeScore:1,awayScore:3},
+{id:40,stage:"Group Stage",group:"I",date:"Mon 22 Jun",utc:"2026-06-22T16:00:00Z",home:"France",away:"Iraq",homeScore:3,awayScore:0},
+{id:41,stage:"Group Stage",group:"I",date:"Mon 22 Jun",utc:"2026-06-22T19:00:00Z",home:"Norway",away:"Senegal",homeScore:3,awayScore:2},
+{id:42,stage:"Group Stage",group:"J",date:"Mon 22 Jun",utc:"2026-06-22T22:00:00Z",home:"Argentina",away:"Austria",homeScore:2,awayScore:0},
+{id:43,stage:"Group Stage",group:"J",date:"Mon 22 Jun",utc:"2026-06-23T01:00:00Z",home:"Jordan",away:"Algeria",homeScore:0,awayScore:0},
+{id:44,stage:"Group Stage",group:"K",date:"Tue 23 Jun",utc:"2026-06-23T16:00:00Z",home:"Portugal",away:"Uzbekistan",homeScore:5,awayScore:0},
+{id:45,stage:"Group Stage",group:"K",date:"Tue 23 Jun",utc:"2026-06-23T19:00:00Z",home:"Colombia",away:"DR Congo",homeScore:1,awayScore:0},
+{id:46,stage:"Group Stage",group:"L",date:"Tue 23 Jun",utc:"2026-06-23T22:00:00Z",home:"England",away:"Ghana",homeScore:0,awayScore:0},
+{id:47,stage:"Group Stage",group:"L",date:"Tue 23 Jun",utc:"2026-06-24T01:00:00Z",home:"Croatia",away:"Panama",homeScore:2,awayScore:1},
+{id:48,stage:"Group Stage",group:"A",date:"Wed 24 Jun",utc:"2026-06-24T16:00:00Z",home:"South Korea",away:"South Africa",homeScore:0,awayScore:1},
+{id:49,stage:"Group Stage",group:"A",date:"Wed 24 Jun",utc:"2026-06-24T19:00:00Z",home:"Czech Republic",away:"Mexico",homeScore:0,awayScore:3},
+{id:50,stage:"Group Stage",group:"B",date:"Wed 24 Jun",utc:"2026-06-24T22:00:00Z",home:"Switzerland",away:"Canada",homeScore:3,awayScore:1},
+{id:51,stage:"Group Stage",group:"B",date:"Wed 24 Jun",utc:"2026-06-25T01:00:00Z",home:"Bosnia & Herzegovina",away:"Qatar",homeScore:3,awayScore:1},
+{id:52,stage:"Group Stage",group:"C",date:"Thu 25 Jun",utc:"2026-06-25T16:00:00Z",home:"Morocco",away:"Haiti",homeScore:4,awayScore:2},
+{id:53,stage:"Group Stage",group:"C",date:"Thu 25 Jun",utc:"2026-06-25T19:00:00Z",home:"Scotland",away:"Brazil",homeScore:0,awayScore:3},
+{id:54,stage:"Group Stage",group:"D",date:"Thu 25 Jun",utc:"2026-06-25T22:00:00Z",home:"Australia",away:"Paraguay",homeScore:0,awayScore:0},
+{id:55,stage:"Group Stage",group:"D",date:"Thu 25 Jun",utc:"2026-06-26T01:00:00Z",home:"Turkey",away:"USA",homeScore:3,awayScore:2},
+{id:56,stage:"Group Stage",group:"E",date:"Fri 26 Jun",utc:"2026-06-26T16:00:00Z",home:"Germany",away:"Ecuador",homeScore:1,awayScore:2},
+{id:57,stage:"Group Stage",group:"E",date:"Fri 26 Jun",utc:"2026-06-26T19:00:00Z",home:"Curazao",away:"Ivory Coast",homeScore:0,awayScore:2},
+{id:58,stage:"Group Stage",group:"F",date:"Fri 26 Jun",utc:"2026-06-26T22:00:00Z",home:"Netherlands",away:"Sweden",homeScore:5,awayScore:1},
+{id:59,stage:"Group Stage",group:"F",date:"Fri 26 Jun",utc:"2026-06-27T01:00:00Z",home:"Japan",away:"Tunisia",homeScore:4,awayScore:0},
+{id:60,stage:"Group Stage",group:"H",date:"Sat 27 Jun",utc:"2026-06-27T13:00:00Z",home:"Spain",away:"Uruguay",homeScore:1,awayScore:0},
+{id:61,stage:"Group Stage",group:"H",date:"Sat 27 Jun",utc:"2026-06-27T16:00:00Z",home:"Saudi Arabia",away:"Cape Verde",homeScore:0,awayScore:0},
+{id:62,stage:"Group Stage",group:"G",date:"Sat 27 Jun",utc:"2026-06-27T19:00:00Z",home:"Belgium",away:"New Zealand",homeScore:5,awayScore:1},
+{id:63,stage:"Group Stage",group:"G",date:"Sat 27 Jun",utc:"2026-06-27T22:00:00Z",home:"Egypt",away:"Iran",homeScore:1,awayScore:1},
+{id:64,stage:"Group Stage",group:"I",date:"Sat 27 Jun",utc:"2026-06-28T01:00:00Z",home:"France",away:"Norway",homeScore:1,awayScore:4},
+{id:65,stage:"Group Stage",group:"I",date:"Sat 27 Jun",utc:"2026-06-28T04:00:00Z",home:"Iraq",away:"Senegal",homeScore:0,awayScore:5},
+{id:66,stage:"Group Stage",group:"J",date:"Sat 27 Jun",utc:"2026-06-27T13:00:00Z",home:"Argentina",away:"Jordan",homeScore:3,awayScore:1},
+{id:67,stage:"Group Stage",group:"J",date:"Sat 27 Jun",utc:"2026-06-27T16:00:00Z",home:"Algeria",away:"Austria",homeScore:3,awayScore:3},
+{id:68,stage:"Group Stage",group:"K",date:"Sat 27 Jun",utc:"2026-06-27T19:00:00Z",home:"Portugal",away:"Colombia",homeScore:0,awayScore:0},
+{id:69,stage:"Group Stage",group:"K",date:"Sat 27 Jun",utc:"2026-06-27T22:00:00Z",home:"DR Congo",away:"Uzbekistan",homeScore:3,awayScore:1},
+{id:70,stage:"Group Stage",group:"L",date:"Sat 27 Jun",utc:"2026-06-28T01:00:00Z",home:"Panama",away:"England",homeScore:0,awayScore:2},
+{id:71,stage:"Group Stage",group:"L",date:"Sat 27 Jun",utc:"2026-06-28T04:00:00Z",home:"Ghana",away:"Croatia",homeScore:1,awayScore:2},
 ];
-let koId=72;
-const KO_MATCHES=[];
-[['Round of 32',16],['Round of 16',16],['QF',8],['SF',4],['Final',1]].forEach(([s,n])=>{
-  for(let k=0;k<n;k++) KO_MATCHES.push({id:koId++,stage:s,group:null,date:null,home:'TBD',away:'TBD',homeScore:null,awayScore:null,isTBD:true});
-});
+// KNOCKOUT BRACKET — real 2026 fixtures.
+// Each match has feeders (from:[matchId, matchId]) so winners auto-advance.
+// R32 matches have explicit home/away teams; later rounds resolve from winners.
+const KO_MATCHES=[
+  // Round of 32 (ids 73-88)
+  {id:73,stage:"Round of 32",date:"Sun 28 Jun",home:"South Africa",away:"Canada",homeScore:0,awayScore:1},
+  {id:74,stage:"Round of 32",date:"Tue 30 Jun",home:"Brazil",away:"Japan",homeScore:null,awayScore:null},
+  {id:75,stage:"Round of 32",date:"Tue 30 Jun",home:"Germany",away:"Paraguay",homeScore:null,awayScore:null},
+  {id:76,stage:"Round of 32",date:"Tue 30 Jun",home:"Netherlands",away:"Morocco",homeScore:null,awayScore:null},
+  {id:77,stage:"Round of 32",date:"Wed 1 Jul",home:"Ivory Coast",away:"Norway",homeScore:null,awayScore:null},
+  {id:78,stage:"Round of 32",date:"Wed 1 Jul",home:"France",away:"Sweden",homeScore:null,awayScore:null},
+  {id:79,stage:"Round of 32",date:"Wed 1 Jul",home:"Mexico",away:"Ecuador",homeScore:null,awayScore:null},
+  {id:80,stage:"Round of 32",date:"Thu 2 Jul",home:"England",away:"DR Congo",homeScore:null,awayScore:null},
+  {id:81,stage:"Round of 32",date:"Thu 2 Jul",home:"Belgium",away:"Senegal",homeScore:null,awayScore:null},
+  {id:82,stage:"Round of 32",date:"Thu 2 Jul",home:"USA",away:"Bosnia & Herzegovina",homeScore:null,awayScore:null},
+  {id:83,stage:"Round of 32",date:"Fri 3 Jul",home:"Spain",away:"Austria",homeScore:null,awayScore:null},
+  {id:84,stage:"Round of 32",date:"Fri 3 Jul",home:"Portugal",away:"Croatia",homeScore:null,awayScore:null},
+  {id:85,stage:"Round of 32",date:"Fri 3 Jul",home:"Switzerland",away:"Algeria",homeScore:null,awayScore:null},
+  {id:86,stage:"Round of 32",date:"Sat 4 Jul",home:"Australia",away:"Egypt",homeScore:null,awayScore:null},
+  {id:87,stage:"Round of 32",date:"Sat 4 Jul",home:"Argentina",away:"Cape Verde",homeScore:null,awayScore:null},
+  {id:88,stage:"Round of 32",date:"Sat 4 Jul",home:"Colombia",away:"Ghana",homeScore:null,awayScore:null},
+  // Round of 16 (ids 89-96) — resolved from R32 winners
+  {id:89,stage:"Round of 16",date:"Sun 5 Jul",from:[75,76],home:null,away:null,homeScore:null,awayScore:null},
+  {id:90,stage:"Round of 16",date:"Sun 5 Jul",from:[73,74],home:null,away:null,homeScore:null,awayScore:null},
+  {id:91,stage:"Round of 16",date:"Mon 6 Jul",from:[77,78],home:null,away:null,homeScore:null,awayScore:null},
+  {id:92,stage:"Round of 16",date:"Mon 6 Jul",from:[79,80],home:null,away:null,homeScore:null,awayScore:null},
+  {id:93,stage:"Round of 16",date:"Tue 7 Jul",from:[81,82],home:null,away:null,homeScore:null,awayScore:null},
+  {id:94,stage:"Round of 16",date:"Tue 7 Jul",from:[83,84],home:null,away:null,homeScore:null,awayScore:null},
+  {id:95,stage:"Round of 16",date:"Wed 8 Jul",from:[85,86],home:null,away:null,homeScore:null,awayScore:null},
+  {id:96,stage:"Round of 16",date:"Wed 8 Jul",from:[87,88],home:null,away:null,homeScore:null,awayScore:null},
+  // Quarter-finals (ids 97-100)
+  {id:97,stage:"QF",date:"Thu 9 Jul",from:[89,90],home:null,away:null,homeScore:null,awayScore:null},
+  {id:98,stage:"QF",date:"Fri 10 Jul",from:[91,92],home:null,away:null,homeScore:null,awayScore:null},
+  {id:99,stage:"QF",date:"Sat 11 Jul",from:[93,94],home:null,away:null,homeScore:null,awayScore:null},
+  {id:100,stage:"QF",date:"Sat 11 Jul",from:[95,96],home:null,away:null,homeScore:null,awayScore:null},
+  // Semi-finals (ids 101-102)
+  {id:101,stage:"SF",date:"Tue 14 Jul",from:[97,98],home:null,away:null,homeScore:null,awayScore:null},
+  {id:102,stage:"SF",date:"Wed 15 Jul",from:[99,100],home:null,away:null,homeScore:null,awayScore:null},
+  // Final (id 103)
+  {id:103,stage:"Final",date:"Sun 19 Jul",from:[101,102],home:null,away:null,homeScore:null,awayScore:null},
+];
 const ALL_MATCHES=[...GROUP_MATCHES,...KO_MATCHES];
 const teamPts={};TEAMS.forEach(t=>teamPts[t.name]=0);
+
+// Resolve knockout bracket: fill in home/away for later rounds from prior winners
+function matchWinner(m){
+  if(m.home===null||m.away===null)return null;
+  if(m.homeScore===null||m.awayScore===null)return null;
+  if(m.homeScore>m.awayScore)return m.home;
+  if(m.awayScore>m.homeScore)return m.away;
+  // Level after 90/120 — decided on penalties if recorded
+  if(m.penHome!=null&&m.penAway!=null){
+    if(m.penHome>m.penAway)return m.home;
+    if(m.penAway>m.penHome)return m.away;
+  }
+  return null; // still tied / shootout not yet recorded
+}
+function resolveBracket(){
+  KO_MATCHES.forEach(m=>{
+    if(!m.from)return;
+    const m1=ALL_MATCHES.find(x=>x.id===m.from[0]);
+    const m2=ALL_MATCHES.find(x=>x.id===m.from[1]);
+    m.home=matchWinner(m1);
+    m.away=matchWinner(m2);
+  });
+}
+
 
 // WIKIPEDIA LIVE SCORES
 // Uses action=parse API which returns fully rendered HTML including scores.
@@ -425,10 +498,9 @@ function wikiName(n){
 // Parse rendered HTML from Wikipedia action=parse API
 // Scores live in: <td class="fscore">2–0</td>
 // Teams live in:  <th class="fhome">Mexico</th> and <th class="faway">South Africa</th>
+// Knockout games may show penalties: <td class="fscore">1–1 <small>(4–2 <abbr>p</abbr>)</small></td>
 function parseWikiHtml(html){
   const results=[];
-  // Extract each match block — they contain fhome, fscore, faway
-  // Strategy: find all fscore cells and grab surrounding fhome/faway
   const tmp=document.createElement('div');
   tmp.innerHTML=html;
   const rows=tmp.querySelectorAll('tr');
@@ -438,12 +510,17 @@ function parseWikiHtml(html){
     const scoreEl=row.querySelector('.fscore');
     if(!homeEl||!awayEl||!scoreEl)return;
     const scoreText=scoreEl.textContent.trim();
-    // Score format: "2–0" or "2-0" using en-dash or hyphen
-    const sm=scoreText.match(/^(\d+)\s*[–\-]\s*(\d+)$/);
+    // Main score: "2–0", "1–1", possibly followed by "(a.e.t.)" and "(4–2 p)"
+    const sm=scoreText.match(/(\d+)\s*[–\-]\s*(\d+)/);
     if(!sm)return;
+    let h=parseInt(sm[1]), a=parseInt(sm[2]);
+    // Penalty shootout: take the second "X–Y" group near a 'p' marker
+    const pen=scoreText.match(/\((\d+)\s*[–\-]\s*(\d+)\s*p/i);
+    let penH=null, penA=null;
+    if(pen){ penH=parseInt(pen[1]); penA=parseInt(pen[2]); }
     const home=wikiName(homeEl.textContent);
     const away=wikiName(awayEl.textContent);
-    results.push({home,away,h:parseInt(sm[1]),a:parseInt(sm[2])});
+    results.push({home,away,h,a,penH,penA});
   });
   return results;
 }
@@ -463,6 +540,33 @@ function applyResults(results){
   return upd;
 }
 
+// Apply knockout results — match by team name against resolved KO bracket.
+// Knockout fixtures resolve their teams as prior rounds complete, so we match
+// on whichever KO match currently has both these teams slotted in.
+function applyKoResults(results){
+  resolveBracket(); // make sure home/away are current
+  let upd=0;
+  results.forEach(res=>{
+    const m=KO_MATCHES.find(km=>{
+      if(!km.home||!km.away)return false;
+      const kh=wikiName(km.home),ka=wikiName(km.away);
+      return (kh===res.home&&ka===res.away)||(kh===res.away&&ka===res.home);
+    });
+    if(!m)return;
+    const flipped=wikiName(m.home)===res.away;
+    const nh=flipped?res.a:res.h, na=flipped?res.h:res.a;
+    let changed=false;
+    if(m.homeScore!==nh||m.awayScore!==na){m.homeScore=nh;m.awayScore=na;changed=true;}
+    // Penalty shootout result (if any)
+    if(res.penH!==null&&res.penH!==undefined){
+      const pH=flipped?res.penA:res.penH, pA=flipped?res.penH:res.penA;
+      if(m.penHome!==pH||m.penAway!==pA){m.penHome=pH;m.penAway=pA;changed=true;}
+    }
+    if(changed){upd++;resolveBracket();}
+  });
+  return upd;
+}
+
 function fetchGroup(grp){
   const url='https://en.wikipedia.org/w/api.php?action=parse&page=2026_FIFA_World_Cup_Group_'
     +grp+'&prop=text&format=json&origin=*&formatversion=2';
@@ -474,6 +578,18 @@ function fetchGroup(grp){
     });
 }
 
+// Fetch the knockout stage page and apply results to the bracket
+function fetchKnockout(){
+  const url='https://en.wikipedia.org/w/api.php?action=parse&page=2026_FIFA_World_Cup_knockout_stage'
+    +'&prop=text&format=json&origin=*&formatversion=2';
+  return fetch(url)
+    .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
+    .then(data=>{
+      const html=(data.parse&&data.parse.text)||'';
+      return applyKoResults(parseWikiHtml(html));
+    });
+}
+
 let _fetching=false;
 function fetchWikiScores(manual){
   if(_fetching)return;
@@ -482,16 +598,23 @@ function fetchWikiScores(manual){
   if(manual)setFS('Fetching from Wikipedia…','#2563eb');
   const groups=['A','B','C','D','E','F','G','H','I','J','K','L'];
   let i=0,total=0,errs=0;
+  function finish(){
+    _fetching=false;
+    saveLs();computePoints();renderLeaderboard();
+    if(document.getElementById('tab-results').classList.contains('active'))renderMatches();
+    if(document.getElementById('tab-analysis').classList.contains('active'))renderAnalysis();
+    if(document.getElementById('tab-playoff').classList.contains('active'))renderPlayoff();
+    const t=new Date().toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit'});
+    if(errs>0)setSyncStatus('error','Partial — '+t);
+    else setSyncStatus('live','Wikipedia — '+t);
+    if(manual)setFS(total>0?'✓ '+total+' scores updated at '+t:'✓ Up to date at '+t,'#16a34a');
+  }
   function next(){
     if(i>=groups.length){
-      _fetching=false;
-      saveLs();computePoints();renderLeaderboard();
-      if(document.getElementById('tab-results').classList.contains('active'))renderMatches();
-      if(document.getElementById('tab-analysis').classList.contains('active'))renderAnalysis();
-      const t=new Date().toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit'});
-      if(errs>0)setSyncStatus('error','Partial — '+t);
-      else setSyncStatus('live','Wikipedia — '+t);
-      if(manual)setFS(total>0?'✓ '+total+' scores updated at '+t:'✓ Up to date at '+t,'#16a34a');
+      // Groups done — now fetch the knockout bracket page
+      fetchKnockout()
+        .then(n=>{total+=n;finish();})
+        .catch(()=>{errs++;finish();});
       return;
     }
     fetchGroup(groups[i++])
@@ -501,9 +624,36 @@ function fetchWikiScores(manual){
   next();
 }
 
-function saveLs(){try{const d={};ALL_MATCHES.forEach(m=>d[m.id]={h:m.homeScore,a:m.awayScore});localStorage.setItem('wc2026',JSON.stringify(d));}catch(e){}}
-function loadLs(){try{const s=localStorage.getItem('wc2026');if(!s)return false;const d=JSON.parse(s);ALL_MATCHES.forEach(m=>{if(d[m.id]){m.homeScore=d[m.id].h;m.awayScore=d[m.id].a;}});return true;}catch(e){return false;}}
+function saveLs(){try{const d={};ALL_MATCHES.forEach(m=>d[m.id]={h:m.homeScore,a:m.awayScore,ph:m.penHome??null,pa:m.penAway??null});localStorage.setItem('wc2026',JSON.stringify(d));}catch(e){}}
+// Capture the scores baked into the file BEFORE any cache is applied.
+// These are authoritative — a stale browser cache must never override them.
+const BUILTIN_SCORES={};
+ALL_MATCHES.forEach(m=>{BUILTIN_SCORES[m.id]={h:m.homeScore,a:m.awayScore};});
+function loadLs(){try{const s=localStorage.getItem('wc2026');if(!s)return false;const d=JSON.parse(s);ALL_MATCHES.forEach(m=>{const c=d[m.id];if(!c)return;
+  const builtin=BUILTIN_SCORES[m.id];
+  // If the file already ships a result for this match, it wins — ignore the cache.
+  const hasBuiltin = builtin && builtin.h!=null && builtin.a!=null;
+  if(!hasBuiltin && c.h!=null && c.a!=null){m.homeScore=c.h;m.awayScore=c.a;}
+  // Penalties: only apply from cache if the file didn't ship them
+  if(c.ph!=null && (builtin?BUILTIN_SCORES[m.id]:true) && m.penHome==null)m.penHome=c.ph;
+  if(c.pa!=null && m.penAway==null)m.penAway=c.pa;
+});return true;}catch(e){return false;}}
 function saveData(){saveLs();}
+function resetToOfficial(){
+  // Clear stale cache and restore the authoritative built-in scores, then refresh from Wikipedia.
+  try{localStorage.removeItem('wc2026');}catch(e){}
+  ALL_MATCHES.forEach(m=>{
+    const b=BUILTIN_SCORES[m.id];
+    m.homeScore=b?b.h:null;
+    m.awayScore=b?b.a:null;
+    m.penHome=undefined;m.penAway=undefined;
+  });
+  computePoints();renderLeaderboard();renderMatches();
+  if(document.getElementById('tab-analysis').classList.contains('active'))renderAnalysis();
+  if(document.getElementById('tab-playoff').classList.contains('active'))renderPlayoff();
+  setFS('Reset to official scores — refreshing from Wikipedia…','#2563eb');
+  fetchWikiScores(true);
+}
 function loadData(){
   const had=loadLs();
   setSyncStatus(had?'ready':'syncing',had?'Cached — fetching live…':null);
@@ -520,6 +670,7 @@ function startPolling(){
 
 // CORE
 function computePoints(){
+  resolveBracket();
   TEAMS.forEach(t=>teamPts[t.name]=0);
   ALL_MATCHES.forEach(m=>{
     if(m.homeScore===null||m.awayScore===null)return;
@@ -539,71 +690,112 @@ const playerTeams=n=>TEAMS.filter(t=>t.player===n);
 //    BUT if two of your teams are in the same half of the bracket they will eventually meet,
 //    so you can only count ONE of them going all the way — the other is eliminated by your own team.
 // 4. Only top-2 per group guaranteed through; 3rd place teams get a discount (8 of 16 advance)
+//
+// Now that the group stage is complete, max possible = points banked so far +
+// best-case knockout run, but two of a player's teams in the same bracket path
+// MUST eventually meet — when they do, only one can win, so we don't double-count
+// a win at that round. We simulate the best case by walking the actual bracket.
 function maxPossible(playerName) {
   const myTeams = playerTeams(playerName);
   if (!myTeams.length) return 0;
+  resolveBracket();
 
-  // --- Group stage max ---
-  // For each team: points already earned + max from remaining group games
-  // Conflict: if two of my teams are in the same group, their head-to-head is a draw at best (1pt each)
-  // rather than a win (3pts) — one of them must drop points
-  let groupMax = 0;
-  myTeams.forEach(t => {
-    const played = GROUP_MATCHES.filter(m => (m.home===t.name||m.away===t.name) && m.homeScore!==null).length;
-    const remaining = 3 - played;
-    const earned = teamPts[t.name] || 0;
-    // Max from remaining games = 3pts each, EXCEPT for any remaining game vs another of my teams
-    const vsMyOtherTeam = GROUP_MATCHES.filter(m =>
-      m.homeScore === null && // not yet played
-      (m.home===t.name||m.away===t.name) &&
-      myTeams.some(o => o.name !== t.name && (m.home===o.name||m.away===o.name))
-    ).length;
-    // Head-to-head with own team: best case is 1pt each (draw), not 3pts win
-    const groupRemMax = (remaining - vsMyOtherTeam) * 3 + vsMyOtherTeam * 1;
-    groupMax += earned + groupRemMax;
+  // Points already banked (group stage + any knockout games played)
+  let banked = 0;
+  ALL_MATCHES.forEach(m => {
+    if (m.homeScore===null || m.awayScore===null) return;
+    const h=parseInt(m.homeScore), a=parseInt(m.awayScore);
+    if (isNaN(h)||isNaN(a)) return;
+    const winner = h>a ? m.home : (a>h ? m.away : null);
+    [m.home,m.away].forEach(tn=>{
+      const t = TEAM_MAP[tn];
+      if (!t || t.player !== playerName) return;
+      if (winner === tn) banked += 3;
+      else if (winner === null) banked += 1; // group-stage draw
+    });
   });
 
-  // --- Knockout max ---
-  // Each team that makes it through can play R32, R16, QF, SF, Final = 5 games = 15pts max
-  // But if two of my teams are in the same half of the bracket, they'll meet and eliminate each other
-  // Simplification: group teams by whether they can realistically both make it deep
-  // Same group = only 1 can win the group (the other might sneak through as best 3rd)
-  // Different groups = both can potentially go all the way until they meet in the final
-
-  // Count how many of my teams are from the same group
-  const groupCounts = {};
-  myTeams.forEach(t => { groupCounts[t.group] = (groupCounts[t.group]||0) + 1; });
-
-  // For knockout points: each team gets up to 15pts (5 knockout wins)
-  // Deduction: for each pair of my teams in the same group, one of them at best reaches the final
-  // while the other is knocked out — so we lose 1 potential knockout win per same-group pair
-  // More precisely: if I have 2 teams in the same group, in the best case one wins the group
-  // and one sneaks through as best 3rd — they end up in different R32 brackets, so both CAN go deep.
-  // They'd only meet in the final at earliest. So: same group pair costs 1 potential final win (3pts).
-  let koMax = myTeams.length * 15; // optimistic: every team goes all the way
-
-  // Reduce for same-group conflicts — they must eventually meet if both go deep
-  // Two teams in same group: one wins group, one is at best 3rd-place qualifier
-  // Worst case they meet in R16 (different bracket halves). Assume they meet in SF at earliest.
-  // Deduct: 1 game worth of points (3pts) per same-group pair since one eliminates the other in SF
-  Object.values(groupCounts).forEach(count => {
-    if (count >= 2) koMax -= (count - 1) * 3; // each extra team in same group costs one KO win
+  // Which of my teams are still alive (not eliminated in a completed KO match)?
+  const eliminated = new Set();
+  KO_MATCHES.forEach(m => {
+    if (m.home===null || m.away===null) return;
+    if (m.homeScore===null || m.awayScore===null) return;
+    const h=parseInt(m.homeScore), a=parseInt(m.awayScore);
+    if (h>a) eliminated.add(m.away);
+    else if (a>h) eliminated.add(m.home);
   });
 
-  // Also cap: only 32 of 48 teams advance. 3rd-placed teams only 8 of 12 qualify.
-  // Apply a 3rd-place risk discount: teams likely to finish 3rd get -3pts (50% chance of not advancing)
-  // We identify "weaker" teams as tier 4-5 in a group where a player also has tier 1-2 teams
-  myTeams.forEach(t => {
-    if (t.tier >= 4) {
-      // Check if same player has a stronger team in same group
-      const hasStrongerTeamSameGroup = myTeams.some(o => o.name !== t.name && o.group === t.group && o.tier < t.tier);
-      if (hasStrongerTeamSameGroup) {
-        koMax -= 6; // likely to finish 3rd or 4th — discount most of their KO potential
+  // For teams not yet in the knockouts at all (group stage just ended), they enter at R32.
+  // Best-case future KO wins for each alive team = number of KO rounds remaining on its path.
+  // Determine each alive team's current furthest KO match, then remaining rounds to the final.
+  // KO rounds: R32(73-88), R16(89-96), QF(97-100), SF(101-102), Final(103) = up to 5 wins.
+  const STAGE_ROUNDS = {"Round of 32":5,"Round of 16":4,"QF":3,"SF":2,"Final":1};
+
+  // Find, for each of my alive teams, how many KO wins remain at most.
+  // A team currently slotted in a R32 match has up to 5 wins; if it's already won through
+  // to (say) the QF match as a confirmed participant, fewer remain but earlier wins are banked.
+  function remainingKoWinsFor(teamName){
+    // Find the earliest KO match this team is currently placed in but hasn't won yet
+    // Walk stages from R32 forward; the team can appear as home/away in at most one unplayed match
+    for (const m of KO_MATCHES){
+      if (m.home===teamName || m.away===teamName){
+        if (m.homeScore===null || m.awayScore===null){
+          return STAGE_ROUNDS[m.stage] || 0; // wins available from here to final
+        }
       }
     }
-  });
+    return 0;
+  }
 
-  return Math.max(groupMax + koMax, groupMax); // never go below group points
+  // Group my alive teams and compute best-case, de-duplicating bracket clashes.
+  // Simple + safe upper bound: sum each alive team's remaining-possible KO wins,
+  // then for every pair of my teams that share a bracket "section" (could meet),
+  // subtract the wins that can't both happen. We approximate this by walking the bracket:
+  // when two of my teams could meet at round R, only one can earn the win at R and beyond's
+  // shared slot — so we subtract 3pts for each round where two of my still-alive teams
+  // would have to face each other.
+  const aliveTeams = myTeams.filter(t => !eliminated.has(t.name));
+
+  // Build potential furthest-reach sets: which final-bracket "slot index" each team can reach.
+  // We map each R32 match to a leaf index 0..15; R16 merges pairs, etc.
+  const r32Order = KO_MATCHES.filter(m=>m.stage==="Round of 32").map(m=>m.id);
+  function leafIndexOf(teamName){
+    for (let i=0;i<r32Order.length;i++){
+      const m = ALL_MATCHES.find(x=>x.id===r32Order[i]);
+      if (m && (m.home===teamName||m.away===teamName)) return i;
+    }
+    // team may have already advanced past R32 — find via its current match feeder chain
+    return -1;
+  }
+
+  let koMax = 0;
+  aliveTeams.forEach(t => { koMax += remainingKoWinsFor(t.name) * 3; });
+
+  // De-duplicate clashes: if two alive teams share the same half/quarter/eighth of the bracket,
+  // they meet at some round and one knocks the other out — remove the lower-value duplicate path.
+  // For each pair, find the round at which their leaf indices converge, and subtract the wins
+  // beyond that round that can't be earned twice.
+  function convergeRound(i,j){
+    if (i<0||j<0) return 0;
+    // rounds: leaf groups of size 2 -> R16, 4 -> QF, 8 -> SF, 16 -> Final
+    if ((i>>1)===(j>>1)) return 4;        // same R16 match (meet in R16) -> 4 rounds shared from R16
+    if ((i>>2)===(j>>2)) return 3;        // same QF section
+    if ((i>>3)===(j>>3)) return 2;        // same SF section
+    return 1;                              // opposite halves -> can only meet in final
+  }
+  for (let x=0;x<aliveTeams.length;x++){
+    for (let y=x+1;y<aliveTeams.length;y++){
+      const i = leafIndexOf(aliveTeams[x].name);
+      const j = leafIndexOf(aliveTeams[y].name);
+      if (i<0||j<0) continue;
+      const shared = convergeRound(i,j); // number of rounds from meeting point to final inclusive
+      // When they meet, only one survives — subtract that one's remaining shared wins (shared rounds * 3)
+      koMax -= shared * 3;
+    }
+  }
+  if (koMax < 0) koMax = 0;
+
+  return banked + koMax;
 }
 function calcOdds(hr,ar){
   const e=r=>2050-(Math.log(r||50)/Math.log(100))*650,diff=e(hr)-e(ar),base=1/(1+Math.pow(10,-diff/400)),even=1-Math.abs(base-0.5)*2,draw=0.10+even*0.20,rem=1-draw;
@@ -674,6 +866,8 @@ function mCard(m){
   const ht=TEAM_MAP[m.home],at=TEAM_MAP[m.away];
   const hf=ht?.flag||'',af=at?.flag||'',hp=ht?.player,ap=at?.player;
   const hc=PLAYERS.find(p=>p.name===hp)?.color||'#9ca3af',ac=PLAYERS.find(p=>p.name===ap)?.color||'#9ca3af';
+  const homeName=m.home||'TBD',awayName=m.away||'TBD';
+  const isTbd=!m.home||!m.away;
   const hv=m.homeScore!==null?m.homeScore:'',av=m.awayScore!==null?m.awayScore:'';
   const odds=(ht&&at&&!m.isTBD)?oddsHtml(ht,at,m.homeScore,m.awayScore):'';
   const status=matchStatus(m);
@@ -686,15 +880,22 @@ function mCard(m){
     statusBadge='<span class="time-badge">'+matchNZTime(m)+' NZ</span>';
   }
   const cardCls=status==='live'?'mcard live':'mcard';
-  return`<div class="${cardCls}" data-mid="${m.id}"><div class="mrow"><div class="mteam left"><span style="font-size:0.7rem;color:${hc};font-weight:700">${hp||''}</span><span style="font-weight:600">${m.home}</span><span>${hf}</span></div><div class="score-box"><input class="score-input" type="number" min="0" max="20" value="${hv}" placeholder="–" oninput="onScore(${m.id},'h',this.value)"><span class="score-sep">:</span><input class="score-input" type="number" min="0" max="20" value="${av}" placeholder="–" oninput="onScore(${m.id},'a',this.value)"></div><div class="mteam"><span>${af}</span><span style="font-weight:600">${m.away}</span><span style="font-size:0.7rem;color:${ac};font-weight:700">${ap||''}</span></div><span class="gtag">${statusBadge||(m.group?'Grp '+m.group:m.stage)}</span></div>${odds}</div>`;
+  const disAttr=isTbd?' disabled':'';
+  return`<div class="${cardCls}" data-mid="${m.id}"><div class="mrow"><div class="mteam left"><span style="font-size:0.7rem;color:${hc};font-weight:700">${hp||''}</span><span style="font-weight:600">${homeName}</span><span>${hf}</span></div><div class="score-box"><input class="score-input" type="number" min="0" max="20" value="${hv}" placeholder="–"${disAttr} oninput="onScore(${m.id},'h',this.value)"><span class="score-sep">:</span><input class="score-input" type="number" min="0" max="20" value="${av}" placeholder="–"${disAttr} oninput="onScore(${m.id},'a',this.value)"></div><div class="mteam"><span>${af}</span><span style="font-weight:600">${awayName}</span><span style="font-size:0.7rem;color:${ac};font-weight:700">${ap||''}</span></div><span class="gtag">${statusBadge||(m.group?'Grp '+m.group:m.stage)}</span></div>${odds}</div>`;
 }
 function onScore(id,side,val){
   const m=ALL_MATCHES.find(m=>m.id===id);if(!m)return;
   const n=parseInt(val);
   if(side==='h')m.homeScore=isNaN(n)?null:n;else m.awayScore=isNaN(n)?null:n;
-  const card=document.querySelector(`[data-mid="${id}"]`);
-  if(card){const strip=card.querySelector('.odds-strip');const ht=TEAM_MAP[m.home],at=TEAM_MAP[m.away];if(strip&&ht&&at){const tmp=document.createElement('div');tmp.innerHTML=oddsHtml(ht,at,m.homeScore,m.awayScore);if(tmp.firstChild)strip.replaceWith(tmp.firstChild);}}
   computePoints();renderLeaderboard();renderAnalysis();
+  // Knockout score may advance a team — re-render the full match list and playoff bracket
+  if(m.stage!=='Group Stage'){
+    renderMatches();
+    if(document.getElementById('tab-playoff').classList.contains('active'))renderPlayoff();
+  } else {
+    const card=document.querySelector(`[data-mid="${id}"]`);
+    if(card){const strip=card.querySelector('.odds-strip');const ht=TEAM_MAP[m.home],at=TEAM_MAP[m.away];if(strip&&ht&&at){const tmp=document.createElement('div');tmp.innerHTML=oddsHtml(ht,at,m.homeScore,m.awayScore);if(tmp.firstChild)strip.replaceWith(tmp.firstChild);}}
+  }
 }
 function saveScores(){
   document.querySelectorAll('.mcard[data-mid]').forEach(card=>{
@@ -942,150 +1143,94 @@ const R32_OFFICIAL = [
 ];
 
 function renderPlayoff() {
-  const groups = ['A','B','C','D','E','F','G','H','I','J','K','L'];
-  const allStandings = {};
-  groups.forEach(g => { allStandings[g] = getGroupStandings(g); });
+  computePoints(); // ensures bracket is resolved
 
-  // All 3rd-place teams ranked globally
-  const allThirds = groups.map(g => ({group:g, ...allStandings[g][2]}))
-    .sort((a,b) => {
-      if (b.pts !== a.pts) return b.pts - a.pts;
-      const gda = a.gf-a.ga, gdb = b.gf-b.ga;
-      if (gdb !== gda) return gdb - gda;
-      if (b.gf !== a.gf) return b.gf - a.gf;
-      return a.rank - b.rank;
-    });
-  const top8thirds = allThirds.slice(0, 8);
-  const advancing3rds = new Set(top8thirds.map(t => t.name));
-
-  // Pre-assign each of the 8 best 3rd-place teams to exactly one R32 slot.
-  // FIFA's matrix assigns by group, but we guarantee every slot is filled:
-  // 1st pass: greedy best-eligible-unassigned per slot
-  // 2nd pass: backfill any still-empty slot with the best remaining unassigned 3rd
-  const thirdSlots = [];
-  R32_OFFICIAL.forEach(match => {
-    ['home','away'].forEach(side => {
-      if (match[side].startsWith('3')) thirdSlots.push({slot:match[side], num:match.num, key:match[side]+'_'+match.num});
-    });
-  });
-  const assigned3rds = {};
-  const used3rds = new Set();
-  // Pass 1: greedy by eligible group
-  thirdSlots.forEach(ts => {
-    const eligibleGroups = ts.slot.slice(1).split('');
-    const pick = top8thirds.find(t => eligibleGroups.includes(t.group) && !used3rds.has(t.name));
-    if (pick) { assigned3rds[ts.key] = pick; used3rds.add(pick.name); }
-  });
-  // Pass 2: backfill empty slots with any remaining top-8 third, then any third at all
-  thirdSlots.forEach(ts => {
-    if (assigned3rds[ts.key]) return;
-    let pick = top8thirds.find(t => !used3rds.has(t.name))
-            || allThirds.find(t => !used3rds.has(t.name));
-    if (pick) { assigned3rds[ts.key] = pick; used3rds.add(pick.name); }
-    else { assigned3rds[ts.key] = {name:'TBD',flag:'',player:null,rank:99}; }
-  });
-
-  function resolveSlot(slot, matchNum) {
-    if (slot.startsWith('1')) return allStandings[slot[1]][0];
-    if (slot.startsWith('2')) return allStandings[slot[1]][1];
-    if (slot.startsWith('3')) return assigned3rds[slot+'_'+matchNum] || {name:'TBD',flag:'',player:null,rank:99};
-    return {name:'TBD',flag:'',player:null,rank:99};
-  }
-
-  function ownerDot(player) {
-    const p = PLAYERS.find(x => x.name === player);
-    return p ? '<span class="owner-dot" style="background:'+p.color+'" title="'+p.name+'"></span>' : '<span class="owner-dot" style="background:#e5e7eb"></span>';
-  }
-  function ownerBadge(player) {
-    if (!player) return '';
-    const p = PLAYERS.find(x => x.name === player);
+  function ownerBadge(player){
+    if(!player) return '';
+    const p = PLAYERS.find(x=>x.name===player);
     return p ? '<span style="font-size:0.62rem;font-weight:700;color:'+p.color+';background:'+p.color+'22;padding:1px 5px;border-radius:8px;margin-left:auto;white-space:nowrap">'+p.name+'</span>' : '';
+  }
+  function teamCell(name, score, isWinner, slotLabel){
+    const t = TEAM_MAP[name];
+    const p = t ? PLAYERS.find(x=>x.name===t.player) : null;
+    const flag = t ? t.flag : '';
+    const disp = name ? (flag+' '+name) : '<span style="color:#9ca3af;font-style:italic">TBD</span>';
+    const sc = (score!==null && score!==undefined) ? score : '';
+    return '<div class="ko-team'+(isWinner?' winner':'')+'">'
+      + (slotLabel?'<span class="ko-seed">'+slotLabel+'</span>':'')
+      + '<span class="ko-name">'+disp+'</span>'
+      + (t?ownerBadge(t.player):'')
+      + '<span class="ko-score">'+sc+'</span>'
+      + '</div>';
+  }
+  function koMatchCard(m){
+    const winner = matchWinner(m);
+    const t1=TEAM_MAP[m.home], t2=TEAM_MAP[m.away];
+    const clash = t1&&t2&&t1.player&&t2.player&&t1.player!==t2.player;
+    const sameOwner = t1&&t2&&t1.player&&t1.player===t2.player;
+    const p1 = t1?PLAYERS.find(x=>x.name===t1.player):null;
+    let tag='';
+    if(clash) tag='<span style="color:#92400e;font-weight:700"> ⚡ clash</span>';
+    else if(sameOwner) tag='<span style="color:'+p1.color+';font-weight:700"> 🤝 '+p1.name+'</span>';
+    const border = clash?'border:2px solid #fbbf24;':sameOwner?'border:2px solid '+p1.color+';':'';
+    const pens = (m.penHome!=null&&m.penAway!=null)?'<span style="float:right;font-weight:400;opacity:0.7">pens '+m.penHome+'–'+m.penAway+'</span>':'';
+    return '<div class="ko-match" style="'+border+'">'
+      + '<div class="ko-mhead">M'+m.id+' · '+m.date+tag+pens+'</div>'
+      + teamCell(m.home, m.homeScore, winner&&winner===m.home)
+      + teamCell(m.away, m.awayScore, winner&&winner===m.away)
+      + '</div>';
   }
 
   let html = '';
+  html += '<div class="notice">🏆 <strong>Live knockout bracket.</strong> Winners advance automatically as scores come in from Wikipedia. Knockout games can\'t be drawn — the team that progresses (after extra time / penalties) is shown as the winner. Player badges show who owns each team.</div>';
 
-  // --- Group standings ---
-  html += '<div class="sec-title">Group standings <span style="font-weight:400;font-size:0.75rem;color:var(--muted);text-transform:none;letter-spacing:0">— unplayed games ranked by FIFA ranking</span></div>';
-  html += '<div class="playoff-grid">';
-  groups.forEach(g => {
-    const rows = allStandings[g];
-    const played = GROUP_MATCHES.filter(m => m.group===g && m.homeScore!==null).length;
-    const total = GROUP_MATCHES.filter(m => m.group===g).length;
-    html += '<div class="group-standing"><div class="gh">Group '+g+' <span>'+played+'/'+total+' played</span></div>';
-    rows.forEach((t,i) => {
-      const isQ = i < 2;
-      const is3rd = i===2 && advancing3rds.has(t.name);
-      const cls = isQ ? 'qualifies' : is3rd ? 'third' : 'eliminated';
-      const badge = isQ ? '<span class="qual-badge" style="background:#dcfce7;color:#15803d">✓ R32</span>'
-                  : is3rd ? '<span class="qual-badge" style="background:#fef9c3;color:#92400e">3rd ✓</span>' : '';
-      const gd = t.gf - t.ga;
-      html += '<div class="standing-row '+cls+'">'
-        +'<div class="pos">'+(i+1)+'</div>'
-        +'<div class="tname">'+ownerDot(t.player)+t.flag+' '+t.name+'</div>'
-        +'<div class="pts">'+t.pts+'</div>'
-        +'<div class="gd">'+(gd>0?'+':'')+gd+'</div>'
-        +'<div class="gf">'+t.gf+'</div>'
-        +'<div style="text-align:right">'+badge+'</div>'
-        +'</div>';
-    });
+  const rounds = [
+    {key:'Round of 32', label:'Round of 32', cols:4},
+    {key:'Round of 16', label:'Round of 16', cols:4},
+    {key:'QF', label:'Quarter-finals', cols:2},
+    {key:'SF', label:'Semi-finals', cols:2},
+    {key:'Final', label:'Final', cols:1},
+  ];
+  rounds.forEach(r => {
+    const ms = KO_MATCHES.filter(m=>m.stage===r.key);
+    html += '<div class="sec-title">'+r.label+'</div>';
+    html += '<div class="ko-round">';
+    ms.forEach(m=>{ html += koMatchCard(m); });
     html += '</div>';
+  });
+
+  // Player KO points summary
+  html += '<div class="sec-title">Knockout points by player</div>';
+  computePoints();
+  const koPts = {};
+  PLAYERS.forEach(p=>koPts[p.name]=0);
+  KO_MATCHES.forEach(m=>{
+    if(m.homeScore===null||m.awayScore===null||m.home===null||m.away===null)return;
+    const w = matchWinner(m);
+    if(!w)return;
+    const t = TEAM_MAP[w];
+    if(t&&t.player)koPts[t.player]+=3;
+  });
+  const koData = PLAYERS.map(p=>({name:p.name,color:p.color,ko:koPts[p.name],total:playerPts(p.name),max:maxPossible(p.name)}))
+    .sort((a,b)=>b.total-a.total);
+  html += '<div class="agrid">';
+  koData.forEach(d=>{
+    html += '<div class="acard" style="padding:0.85rem 1rem"><div style="display:flex;align-items:center;justify-content:space-between">'
+      + '<span style="font-family:Oswald,sans-serif;font-weight:700;color:'+d.color+'">'+d.name+'</span>'
+      + '<span style="font-size:0.72rem;color:var(--muted)">KO: <strong style="color:var(--text)">'+d.ko+'pts</strong></span>'
+      + '</div>'
+      + '<div style="display:flex;justify-content:space-between;margin-top:0.35rem;font-size:0.75rem;color:var(--muted)">'
+      + '<span>Total: <strong style="color:'+d.color+'">'+d.total+'pts</strong></span>'
+      + '<span>Max possible: <strong>'+d.max+'</strong></span></div></div>';
   });
   html += '</div>';
 
-  // --- Best 3rd-placed teams ---
-  html += '<div class="thirds-section"><h3>🥉 Best 3rd-placed teams — top 8 of 12 advance</h3><div class="thirds-grid">';
-  allThirds.forEach((t,i) => {
-    const adv = i < 8;
-    const gd = t.gf - t.ga;
-    html += '<div class="third-card '+(adv?'advancing':'')+'">'
-      +'<div style="min-width:18px;font-weight:700;font-size:0.72rem;color:'+(adv?'#d97706':'#9ca3af')+'">'+(i+1)+'.</div>'
-      +ownerDot(t.player)
-      +'<div style="flex:1;min-width:0">'
-        +'<div style="font-weight:600;font-size:0.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+t.flag+' '+t.name+'</div>'
-        +'<div style="font-size:0.65rem;color:#6b7280">Grp '+t.group+' · '+t.pts+'pts · GD '+(gd>=0?'+':'')+gd+'</div>'
-      +'</div>'
-      +(adv?'<span style="font-size:0.62rem;font-weight:700;color:#d97706;background:#fef9c3;padding:1px 5px;border-radius:6px">R32</span>':'<span style="font-size:0.62rem;color:#d1d5db">out</span>')
-      +'</div>';
-  });
-  html += '</div></div>';
-
-  // --- Round of 32 matches ---
-  html += '<div class="r32-bracket"><div class="bh">⚔️ Round of 32 — official FIFA bracket</div><div class="r32-matches">';
-  R32_OFFICIAL.forEach(match => {
-    const t1 = resolveSlot(match.home, match.num);
-    const t2 = resolveSlot(match.away, match.num);
-    const p1 = PLAYERS.find(x => x.name === t1.player);
-    const p2 = PLAYERS.find(x => x.name === t2.player);
-    const isTbd1 = !t1.name || t1.name==='TBD';
-    const isTbd2 = !t2.name || t2.name==='TBD';
-    const clash = t1.player && t2.player && t1.player !== t2.player && !isTbd1 && !isTbd2;
-    const sameOwner = t1.player && t1.player === t2.player && !isTbd1 && !isTbd2;
-    const borderStyle = clash ? 'border:2px solid #fbbf24;' : sameOwner ? 'border:2px solid '+p1.color+';' : '';
-    html += '<div class="r32-match" style="'+borderStyle+'">'
-      +'<div class="match-num" style="'+(clash?'background:#fef3c7;color:#92400e':sameOwner?'background:'+p1.color+'18;color:'+p1.color:'')+'">M'+match.num+' · '+match.date
-        +(clash?' ⚡ Sweepstake clash':sameOwner?' 🤝 Same owner':'')
-        +'<span style="float:right;font-weight:400;opacity:0.65">'+match.home+' v '+match.away+'</span></div>'
-      +'<div class="r32-team '+(isTbd1?'tbd':'')+'">'
-        +'<span class="seed" style="color:'+(p1?p1.color:'#9ca3af')+'">'+match.home+'</span>'
-        +(isTbd1?'TBD':t1.flag+' '+t1.name)
-        +ownerBadge(t1.player)
-      +'</div>'
-      +'<div class="r32-team '+(isTbd2?'tbd':'')+'">'
-        +'<span class="seed" style="color:'+(p2?p2.color:'#9ca3af')+'">'+match.away+'</span>'
-        +(isTbd2?'TBD':t2.flag+' '+t2.name)
-        +ownerBadge(t2.player)
-      +'</div>'
-      +'</div>';
-  });
-  html += '</div></div>';
-
-  // --- Legend ---
-  html += '<div style="display:flex;gap:1rem;flex-wrap:wrap;font-size:0.72rem;color:var(--muted);margin-top:0.5rem">'
-    +'<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:#dcfce7;border-radius:2px;display:inline-block"></span>Qualified (top 2)</span>'
-    +'<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:#fef9c3;border-radius:2px;display:inline-block"></span>Best 3rd (8 of 12 advance)</span>'
-    +'<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:#fef3c7;border:1px solid #fbbf24;border-radius:2px;display:inline-block"></span>⚡ Sweepstake clash</span>'
-    +'<span>Ranked: pts → GD → GF → FIFA ranking</span>'
-    +'</div>';
+  // Legend
+  html += '<div style="display:flex;gap:1rem;flex-wrap:wrap;font-size:0.72rem;color:var(--muted);margin-top:1rem">'
+    + '<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:#dcfce7;border-radius:2px;display:inline-block"></span>Winner advances</span>'
+    + '<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:#fef3c7;border:1px solid #fbbf24;border-radius:2px;display:inline-block"></span>⚡ Sweepstake clash (two owners)</span>'
+    + '<span>Each KO win = 3pts</span>'
+    + '</div>';
 
   document.getElementById('playoff-container').innerHTML = html;
 }
