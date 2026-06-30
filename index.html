@@ -82,6 +82,11 @@ main{max-width:1400px;margin:0 auto;padding:1.5rem 2rem 4rem;}
 .time-badge{font-size:0.62rem;padding:2px 6px;border-radius:4px;background:#f3f4f6;color:#6b7280;white-space:nowrap;font-weight:600;}
 @keyframes livePulse{0%,100%{opacity:1}50%{opacity:0.55}}
 .mcard.live{border-color:#fca5a5;box-shadow:0 0 0 1px #fca5a5,0 2px 8px rgba(220,38,38,0.12);}
+.pen-row{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;padding:0.5rem 0.9rem;background:#fffbeb;border-top:1px solid #fde68a;}
+.pen-label{font-size:0.7rem;color:#92400e;font-weight:600;}
+.pen-btn{font-size:0.72rem;font-weight:600;padding:3px 10px;border-radius:14px;border:1.5px solid #d1d5db;background:#fff;color:#374151;cursor:pointer;transition:all 0.12s;}
+.pen-btn:hover{border-color:#92400e;}
+.pen-btn.pen-sel{background:#16a34a;border-color:#16a34a;color:#fff;}
 .odds-strip{padding:3px 0.9rem 7px;background:#fafafa;border-top:1px solid #f3f4f6;}
 .odds-bar{display:flex;height:7px;border-radius:4px;overflow:hidden;gap:1px;}
 .odds-lbl{display:flex;justify-content:space-between;font-size:0.62rem;margin-top:3px;}
@@ -675,9 +680,18 @@ function computePoints(){
   ALL_MATCHES.forEach(m=>{
     if(m.homeScore===null||m.awayScore===null)return;
     const h=parseInt(m.homeScore),a=parseInt(m.awayScore);if(isNaN(h)||isNaN(a))return;
-    if(h>a){if(TEAM_MAP[m.home])teamPts[m.home]=(teamPts[m.home]||0)+3;}
-    else if(a>h){if(TEAM_MAP[m.away])teamPts[m.away]=(teamPts[m.away]||0)+3;}
-    else{if(TEAM_MAP[m.home])teamPts[m.home]=(teamPts[m.home]||0)+1;if(TEAM_MAP[m.away])teamPts[m.away]=(teamPts[m.away]||0)+1;}
+    const isKnockout = m.stage!=='Group Stage';
+    if(isKnockout){
+      // Knockout: there are no draws. Winner (incl. extra time / penalties) gets 3pts, loser 0.
+      const w = matchWinner(m); // accounts for penalty shootout when level
+      if(w && TEAM_MAP[w]) teamPts[w]=(teamPts[w]||0)+3;
+      // If still level with no recorded shootout, award nothing until the result is final.
+    } else {
+      // Group stage: standard 3 / 1 / 0
+      if(h>a){if(TEAM_MAP[m.home])teamPts[m.home]=(teamPts[m.home]||0)+3;}
+      else if(a>h){if(TEAM_MAP[m.away])teamPts[m.away]=(teamPts[m.away]||0)+3;}
+      else{if(TEAM_MAP[m.home])teamPts[m.home]=(teamPts[m.home]||0)+1;if(TEAM_MAP[m.away])teamPts[m.away]=(teamPts[m.away]||0)+1;}
+    }
   });
 }
 const playerPts=n=>TEAMS.filter(t=>t.player===n).reduce((s,t)=>s+(teamPts[t.name]||0),0);
@@ -881,12 +895,35 @@ function mCard(m){
   }
   const cardCls=status==='live'?'mcard live':'mcard';
   const disAttr=isTbd?' disabled':'';
-  return`<div class="${cardCls}" data-mid="${m.id}"><div class="mrow"><div class="mteam left"><span style="font-size:0.7rem;color:${hc};font-weight:700">${hp||''}</span><span style="font-weight:600">${homeName}</span><span>${hf}</span></div><div class="score-box"><input class="score-input" type="number" min="0" max="20" value="${hv}" placeholder="–"${disAttr} oninput="onScore(${m.id},'h',this.value)"><span class="score-sep">:</span><input class="score-input" type="number" min="0" max="20" value="${av}" placeholder="–"${disAttr} oninput="onScore(${m.id},'a',this.value)"></div><div class="mteam"><span>${af}</span><span style="font-weight:600">${awayName}</span><span style="font-size:0.7rem;color:${ac};font-weight:700">${ap||''}</span></div><span class="gtag">${statusBadge||(m.group?'Grp '+m.group:m.stage)}</span></div>${odds}</div>`;
+  // Knockout shootout selector: shown when a KO game is level on score (needs a winner)
+  let penRow='';
+  const isKo=m.stage!=='Group Stage';
+  if(isKo && !isTbd && hasScore && parseInt(m.homeScore)===parseInt(m.awayScore)){
+    const winner=matchWinner(m);
+    const hSel=winner===m.home?'pen-sel':'';
+    const aSel=winner===m.away?'pen-sel':'';
+    penRow='<div class="pen-row"><span class="pen-label">Level — won on extra time / penalties:</span>'
+      +'<button class="pen-btn '+hSel+'" onclick="setPenWinner('+m.id+',&quot;h&quot;)">'+homeName+'</button>'
+      +'<button class="pen-btn '+aSel+'" onclick="setPenWinner('+m.id+',&quot;a&quot;)">'+awayName+'</button></div>';
+  }
+  return`<div class="${cardCls}" data-mid="${m.id}"><div class="mrow"><div class="mteam left"><span style="font-size:0.7rem;color:${hc};font-weight:700">${hp||''}</span><span style="font-weight:600">${homeName}</span><span>${hf}</span></div><div class="score-box"><input class="score-input" type="number" min="0" max="20" value="${hv}" placeholder="–"${disAttr} oninput="onScore(${m.id},'h',this.value)"><span class="score-sep">:</span><input class="score-input" type="number" min="0" max="20" value="${av}" placeholder="–"${disAttr} oninput="onScore(${m.id},'a',this.value)"></div><div class="mteam"><span>${af}</span><span style="font-weight:600">${awayName}</span><span style="font-size:0.7rem;color:${ac};font-weight:700">${ap||''}</span></div><span class="gtag">${statusBadge||(m.group?'Grp '+m.group:m.stage)}</span></div>${penRow}${odds}</div>`;
+}
+// Record the extra-time / shootout winner for a level knockout game
+function setPenWinner(id,side){
+  const m=ALL_MATCHES.find(m=>m.id===id);if(!m)return;
+  // Store a nominal penalty score so matchWinner picks the chosen side
+  if(side==='h'){m.penHome=1;m.penAway=0;}else{m.penHome=0;m.penAway=1;}
+  saveLs();computePoints();renderLeaderboard();renderAnalysis();renderMatches();
+  if(document.getElementById('tab-playoff').classList.contains('active'))renderPlayoff();
 }
 function onScore(id,side,val){
   const m=ALL_MATCHES.find(m=>m.id===id);if(!m)return;
   const n=parseInt(val);
   if(side==='h')m.homeScore=isNaN(n)?null:n;else m.awayScore=isNaN(n)?null:n;
+  // For knockouts: if the score is no longer level, the shootout result is irrelevant — clear it
+  if(m.stage!=='Group Stage' && m.homeScore!==null && m.awayScore!==null && m.homeScore!==m.awayScore){
+    m.penHome=undefined;m.penAway=undefined;
+  }
   computePoints();renderLeaderboard();renderAnalysis();
   // Knockout score may advance a team — re-render the full match list and playoff bracket
   if(m.stage!=='Group Stage'){
